@@ -8,12 +8,15 @@ The full spec lives in [PROJECT_PROMPT.md](PROJECT_PROMPT.md).
 Requirements: .NET 10 SDK, Node (version in `.nvmrc`), Docker.
 
 ```bash
-cp .env.example .env                 # then set POSTGRES_PASSWORD
-docker compose up -d db
-cp api/Shop.Api/appsettings.Development.json.example api/Shop.Api/appsettings.Development.json
-dotnet run --project api/Shop.Api    # http://localhost:5277
-npm --prefix web ci && npm --prefix web start   # http://localhost:4200, /api is proxied to the API
+cp .env.example .env                 # then set POSTGRES_PASSWORD (and POSTGRES_PORT if 5432 is taken)
+dotnet user-secrets --project api/Shop.Api set ConnectionStrings:Default "Host=localhost;Port=<POSTGRES_PORT>;Database=shop;Username=shop;Password=<same password>"
+dotnet user-secrets --project api/Shop.Api set Auth:SigningKey "$(openssl rand -base64 48)"
+npm --prefix web ci
+./scripts/dev.sh                     # Postgres + API (:5277) + web (:4200), stopped together with Ctrl+C
 ```
+
+The web app proxies `/api` to the API, so if pages show "didn't load" and the network tab shows `502 Bad Gateway`,
+the API isn't running: start everything with `./scripts/dev.sh` rather than `npm start` alone.
 
 Quality gate (same as CI): `./scripts/check.sh`.
 
