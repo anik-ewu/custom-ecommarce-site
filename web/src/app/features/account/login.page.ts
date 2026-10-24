@@ -5,6 +5,7 @@ import { Observable } from 'rxjs';
 import { User } from '../../core/auth/auth.models';
 import { AuthService } from '../../core/auth/auth.service';
 import { toProblem } from '../../core/http/problem';
+import { ToastService } from '../../shared/toast/toast.service';
 
 @Component({
   selector: 'app-login-page',
@@ -16,6 +17,7 @@ import { toProblem } from '../../core/http/problem';
 export class LoginPage {
   private readonly auth = inject(AuthService);
   private readonly router = inject(Router);
+  private readonly toasts = inject(ToastService);
 
   readonly returnUrl = input<string>('/');
   readonly busy = signal(false);
@@ -43,7 +45,10 @@ export class LoginPage {
     this.busy.set(true);
     this.error.set(null);
     request.subscribe({
-      next: () => void this.router.navigateByUrl(this.returnUrl() || '/'),
+      next: (user) => {
+        this.toasts.show(`Welcome, ${user.name.split(' ')[0]}.`);
+        void this.router.navigateByUrl(this.returnUrl() || '/');
+      },
       error: (e: unknown) => {
         this.error.set(toProblem(e).title);
         this.busy.set(false);

@@ -10,11 +10,11 @@
         type="text"
         formControlName="name"
         autocomplete="name"
-        [attr.aria-invalid]="form.controls.name.touched && form.controls.name.invalid"
-        aria-describedby="register-name-error"
+        [attr.aria-invalid]="!!nameError()"
+        [attr.aria-describedby]="nameError() ? 'register-name-error' : null"
       />
-      @if (form.controls.name.touched && form.controls.name.invalid) {
-        <p class="field__error" id="register-name-error">Tell us your name.</p>
+      @if (nameError(); as message) {
+        <p class="field__error" id="register-name-error">{{ message }}</p>
       }
     </div>
 
@@ -25,15 +25,11 @@
         type="email"
         formControlName="email"
         autocomplete="email"
-        [attr.aria-invalid]="
-          (form.controls.email.touched && form.controls.email.invalid) || !!fieldErrors()['email']
-        "
-        aria-describedby="register-email-error"
+        [attr.aria-invalid]="!!emailError()"
+        [attr.aria-describedby]="emailError() ? 'register-email-error' : null"
       />
-      @if (form.controls.email.touched && form.controls.email.invalid) {
-        <p class="field__error" id="register-email-error">Enter a valid email address.</p>
-      } @else if (fieldErrors()['email']; as errors) {
-        <p class="field__error" id="register-email-error">{{ errors[0] }}</p>
+      @if (emailError(); as message) {
+        <p class="field__error" id="register-email-error">{{ message }}</p>
       }
     </div>
 
@@ -44,10 +40,17 @@
         type="password"
         formControlName="password"
         autocomplete="new-password"
-        [attr.aria-invalid]="form.controls.password.touched && form.controls.password.invalid"
-        aria-describedby="register-password-hint"
+        [attr.aria-invalid]="!!passwordError()"
+        [attr.aria-describedby]="
+          passwordError()
+            ? 'register-password-hint register-password-error'
+            : 'register-password-hint'
+        "
       />
       <p class="field__hint" id="register-password-hint">At least 8 characters.</p>
+      @if (passwordError(); as message) {
+        <p class="field__error" id="register-password-error">{{ message }}</p>
+      }
     </div>
 
     @if (error(); as message) {

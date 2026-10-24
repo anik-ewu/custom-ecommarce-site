@@ -2,25 +2,25 @@
 .auth {
   max-width: 26rem;
   margin-inline: auto;
-  padding-block: var(--space-8, 3rem);
-  padding-inline: var(--space-4, 1rem);
+  padding-block: var(--space-8);
+  padding-inline: var(--space-4);
 }
 
 .auth__lead {
-  margin-block-end: var(--space-6, 2rem);
+  margin-block-end: var(--space-6);
 }
 
 form {
   display: grid;
-  gap: var(--space-4, 1rem);
+  gap: var(--space-4);
 }
 
 .auth__demo {
   display: grid;
-  gap: var(--space-2, 0.5rem);
-  margin-block-start: var(--space-8, 3rem);
+  gap: var(--space-2);
+  margin-block-start: var(--space-8);
 }
 
 .auth__switch {
-  margin-block-start: var(--space-6, 2rem);
+  margin-block-start: var(--space-6);
 }

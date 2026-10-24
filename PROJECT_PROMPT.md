@@ -165,7 +165,7 @@ Add new codes to this table when you introduce them.
 - **Palette (CSS variables in `web/src/styles/_tokens.scss`, light + dark):**
   - Background: warm off-white `#FAF6F0` · Surface: `#FFFFFF`
   - Ink: deep indigo `#1F2A44` · Muted text: `#5B6475`
-  - Accent: terracotta `#C2603A` · Secondary: kantha red `#9E2B25` · Soft: jute beige `#E8DCC4`
+  - Accent: terracotta `#C2603A` (stitches, decoration, large text) · `--color-accent-strong` `#A64E2C` for buttons and small text, since `#C2603A` is only ~4:1 on white · Secondary: kantha red `#9E2B25` · Soft: jute beige `#E8DCC4`
   - Dark mode: background `#14171F`, text `#EDE7DD`, same accents slightly lifted
 - **Type:** serif display for headings (Fraunces or Cormorant Garamond), clean sans for body (Inter). Large headline sizes, comfortable 1.6 line height.
 - **Signature motif:** a subtle **running-stitch dashed line** (the kantha stitch) used for section dividers, hover underlines and focus rings. Use it sparingly; it's the brand's fingerprint.
@@ -200,7 +200,7 @@ Tick the box **in the same commit** that finishes the step. A new session starts
 - [x] 1. `chore`: solution, Angular app (with Prettier + ESLint), docker-compose, `scripts/check.sh` filled in, CI calling it, health endpoint
 - [x] 2. `feat(db)`: entities, DbContext, tenant filter, migrations, seed
 - [x] 3. `feat(auth)`: register/login, JWT + refresh rotation, interceptor, guards
-- [ ] 4. `feat(ui)`: design tokens, typography, stitch motif, app shell (header, footer, toast)
+- [x] 4. `feat(ui)`: design tokens, typography, stitch motif, app shell (header, footer, toast)
 - [ ] 5. `feat(catalog)`: categories, product list/detail API + pages
 - [ ] 6. `feat(home)`: home page, artisans
 - [ ] 7. `feat(cart)`: cart, reservations, expiry

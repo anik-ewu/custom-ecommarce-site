@@ -11,7 +11,9 @@
         formControlName="email"
         autocomplete="email"
         [attr.aria-invalid]="form.controls.email.touched && form.controls.email.invalid"
-        aria-describedby="login-email-error"
+        [attr.aria-describedby]="
+          form.controls.email.touched && form.controls.email.invalid ? 'login-email-error' : null
+        "
       />
       @if (form.controls.email.touched && form.controls.email.invalid) {
         <p class="field__error" id="login-email-error">Enter a valid email address.</p>
@@ -26,7 +28,11 @@
         formControlName="password"
         autocomplete="current-password"
         [attr.aria-invalid]="form.controls.password.touched && form.controls.password.invalid"
-        aria-describedby="login-password-error"
+        [attr.aria-describedby]="
+          form.controls.password.touched && form.controls.password.invalid
+            ? 'login-password-error'
+            : null
+        "
       />
       @if (form.controls.password.touched && form.controls.password.invalid) {
         <p class="field__error" id="login-password-error">Enter your password.</p>

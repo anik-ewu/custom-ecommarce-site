@@ -1,0 +1,36 @@
+<header class="header">
+  <div class="header__inner container">
+    <a class="header__logo" routerLink="/" aria-label="Kinbo home">Kinbo</a>
+
+    <nav class="header__nav" aria-label="Main">
+      <a
+        class="stitch-link"
+        routerLink="/shop"
+        routerLinkActive
+        #shop="routerLinkActive"
+        [attr.aria-current]="shop.isActive ? 'page' : null"
+        >Shop</a
+      >
+    </nav>
+
+    <div class="header__actions">
+      @if (auth.user(); as user) {
+        <span class="header__greeting muted">Hi, {{ user.name.split(' ')[0] }}</span>
+        <button class="header__action" type="button" (click)="logout()">Sign out</button>
+      } @else {
+        <a class="header__action stitch-link" routerLink="/login">Sign in</a>
+      }
+      <a class="header__action header__cart stitch-link" routerLink="/cart">Cart</a>
+    </div>
+
+    <form class="header__search" role="search" (ngSubmit)="search()">
+      <label class="visually-hidden" for="site-search">Search the collection</label>
+      <input
+        id="site-search"
+        type="search"
+        [formControl]="query"
+        placeholder="Search kantha, jute…"
+      />
+    </form>
+  </div>
+</header>
