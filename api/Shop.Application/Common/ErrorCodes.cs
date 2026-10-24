@@ -12,5 +12,7 @@ public static class ErrorCodes
     public const string PriceChanged = "PRICE_CHANGED";
     public const string Conflict = "CONFLICT";
     public const string RateLimited = "RATE_LIMITED";
+    public const string InvalidStatusTransition = "INVALID_STATUS_TRANSITION";
+    public const string ImageStorageNotConfigured = "IMAGE_STORAGE_NOT_CONFIGURED";
     public const string InternalError = "INTERNAL_ERROR";
 }

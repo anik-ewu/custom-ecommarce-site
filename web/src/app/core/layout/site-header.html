@@ -14,6 +14,9 @@
     </nav>
 
     <div class="header__actions">
+      @if (auth.isAdmin()) {
+        <a class="header__action stitch-link" routerLink="/admin">Admin</a>
+      }
       @if (auth.user(); as user) {
         <a
           class="header__action stitch-link"

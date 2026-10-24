@@ -135,7 +135,7 @@ Because Vercel proxies `/api` to Render, the cookie is first-party and **no CORS
 - `GET /cart`, `POST /cart/items`, `PATCH /cart/items/{id}`, `DELETE /cart/items/{id}`
 - `POST /checkout` (returns order, or Stripe checkout URL), `POST /payments/stripe/webhook`
 - `GET /orders?page=&pageSize=` (own orders, newest first), `GET /orders/{number}` (own order only)
-- Admin: `/admin/products` (CRUD + image upload), `/admin/orders` (list, update status), `/admin/artisans`, `/admin/dashboard` (sales today/week, low stock, recent orders)
+- Admin (role `Admin`): `/admin/products` (CRUD; `DELETE` archives; `PUT` needs the `version` it loaded, stale → `CONFLICT`; `POST/DELETE /{id}/images`), `/admin/uploads` (multipart JPEG/PNG/WebP ≤ 5 MB → URL; Cloudinary when `Images:Cloudinary*` is set, else local disk in development), `/admin/orders` (list, detail, `PATCH /{number}/status`), `/admin/artisans`, `/admin/dashboard` (sales today/7 days in shop time, low stock ≤ 3, recent orders)
 - `GET /health`
 
 **One error shape:** `ProblemDetails` with an `errors` dictionary for field errors and a stable `code`. Validate input with FluentValidation or data annotations. Paginate every list.
@@ -151,6 +151,8 @@ Because Vercel proxies `/api` to Render, the cookie is first-party and **no CORS
 | `PRICE_CHANGED` | 409 | Price changed since it was added to the cart; client shows the new total |
 | `CONFLICT` | 409 | Other concurrency conflict (e.g. email already registered) |
 | `RATE_LIMITED` | 429 | Too many auth attempts |
+| `INVALID_STATUS_TRANSITION` | 409 | Order status change not allowed (e.g. Delivered → Cancelled) |
+| `IMAGE_STORAGE_NOT_CONFIGURED` | 503 | Photo upload in production without Cloudinary settings |
 | `INTERNAL_ERROR` | 500 | Unexpected server error |
 | `STORE_NOT_CONFIGURED` | 503 | The configured store doesn't exist yet (seed not run) |
 
@@ -208,7 +210,7 @@ Tick the box **in the same commit** that finishes the step. A new session starts
 - [x] 8. `feat(checkout)`: orders with COD
 - [ ] 9. `feat(payments)`: Stripe test mode + idempotent webhook
 - [x] 10. `feat(account)`: order history
-- [ ] 11. `feat(admin)`: dashboard, products, orders, image upload
+- [x] 11. `feat(admin)`: dashboard, products, orders, image upload
 - [ ] 12. `chore(deploy)`: Dockerfile, Render, Vercel proxy, Neon, README, demo video script
 
 Each step must end with: `./scripts/check.sh` green, the `reviewer` agent passing, and the feature usable in the browser. UI steps also need the `ui-reviewer` agent passing.

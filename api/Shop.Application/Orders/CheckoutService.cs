@@ -247,7 +247,7 @@ public sealed class CheckoutService(
         }
     }
 
-    private static OrderDto ToDto(Order o) => new(
+    internal static OrderDto ToDto(Order o) => new(
         o.Number,
         o.Status.ToString(),
         o.CreatedAt,

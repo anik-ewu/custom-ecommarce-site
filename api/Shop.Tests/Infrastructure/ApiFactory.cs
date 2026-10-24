@@ -13,6 +13,9 @@ public sealed class ApiFactory : WebApplicationFactory<Program>, IAsyncLifetime
     public const string AdminPassword = "Admin-test-pass-1";
     public const string DemoPassword = "Demo-test-pass-1";
 
+    /// <summary>Local image uploads go to a throwaway folder, never into the repo.</summary>
+    public static readonly string UploadsPath = Path.Combine(Path.GetTempPath(), $"kinbo-test-uploads-{Guid.NewGuid():N}");
+
     private readonly PostgreSqlContainer _db = new PostgreSqlBuilder("postgres:17").Build();
 
     public Task InitializeAsync() => _db.StartAsync();
@@ -26,6 +29,7 @@ public sealed class ApiFactory : WebApplicationFactory<Program>, IAsyncLifetime
         builder.UseSetting("Seed:AdminPassword", AdminPassword);
         builder.UseSetting("Seed:DemoPassword", DemoPassword);
         builder.UseSetting("Auth:SigningKey", "test-signing-key-that-is-at-least-32-bytes-long");
+        builder.UseSetting("Images:LocalPath", UploadsPath);
     }
 
     /// <summary>

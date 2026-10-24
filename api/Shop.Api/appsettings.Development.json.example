@@ -8,5 +8,10 @@
   },
   "Auth": {
     "SigningKey": "<at least 32 random characters, e.g. openssl rand -base64 48>"
+  },
+  "Images": {
+    "CloudinaryCloudName": "<optional: your cloud name>",
+    "CloudinaryApiKey": "<optional>",
+    "CloudinaryApiSecret": "<optional: use user-secrets>"
   }
 }

@@ -2,6 +2,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Shop.Infrastructure.Data;
+using Shop.Infrastructure.Images;
 using Shop.Infrastructure.Seed;
 using Shop.Infrastructure.Tenancy;
 
@@ -20,6 +21,13 @@ public static class DependencyInjection
         services.AddDbContext<ShopDbContext>(o => ConfigureDb(o, connectionString));
         services.Configure<SeedOptions>(config.GetSection("Seed"));
         services.AddScoped<ShopSeeder>();
+
+        var images = config.GetSection("Images");
+        services.Configure<ImageStorageOptions>(images);
+        if (images.Get<ImageStorageOptions>()?.UseCloudinary == true)
+            services.AddHttpClient<IImageStorage, CloudinaryImageStorage>();
+        else
+            services.AddSingleton<LocalImageStorage>().AddSingleton<IImageStorage>(sp => sp.GetRequiredService<LocalImageStorage>());
         return services;
     }
 

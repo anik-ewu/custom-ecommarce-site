@@ -403,12 +403,12 @@ namespace Shop.Infrastructure.Migrations
                     b.HasKey("Id")
                         .HasName("pk_orders");
 
-                    b.HasIndex("Number")
-                        .IsUnique()
-                        .HasDatabaseName("ix_orders_number");
-
                     b.HasIndex("UserId")
                         .HasDatabaseName("ix_orders_user_id");
+
+                    b.HasIndex("StoreId", "Number")
+                        .IsUnique()
+                        .HasDatabaseName("ix_orders_store_id_number");
 
                     b.HasIndex("StoreId", "UserId")
                         .HasDatabaseName("ix_orders_store_id_user_id");

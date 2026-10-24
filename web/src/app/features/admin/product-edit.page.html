@@ -1,0 +1,296 @@
+<a class="back stitch-link" routerLink="/admin/products">← All products</a>
+
+<div class="page-head">
+  <h1>{{ isNew() ? 'New product' : (product.value()?.name ?? 'Product') }}</h1>
+  @if (!isNew() && product.hasValue()) {
+    <a
+      class="view-link stitch-link"
+      [routerLink]="['/product', product.value().slug]"
+      target="_blank"
+      rel="noopener"
+      >View in shop<span class="visually-hidden"> (opens in a new tab)</span></a
+    >
+  }
+</div>
+
+@if (!isNew() && product.error()) {
+  <p class="empty">That product didn't load.</p>
+} @else {
+  <div class="layout">
+    <form
+      [formGroup]="form"
+      (ngSubmit)="save()"
+      novalidate
+      class="panel form"
+      aria-label="Product details"
+    >
+      <div class="field">
+        <label for="p-name">Name</label>
+        <input
+          id="p-name"
+          formControlName="name"
+          [attr.aria-invalid]="!!errorFor('name')"
+          [attr.aria-describedby]="describedBy('name')"
+        />
+        @if (errorFor('name'); as m) {
+          <p class="field__error" id="p-name-error">{{ m }}</p>
+        }
+      </div>
+
+      <div class="field">
+        <label for="p-slug">Web address</label>
+        <input
+          id="p-slug"
+          formControlName="slug"
+          [attr.aria-invalid]="!!errorFor('slug')"
+          [attr.aria-describedby]="describedBy('slug', 'p-slug-hint')"
+        />
+        <p class="field__hint" id="p-slug-hint">
+          Lowercase words and dashes, e.g. lotus-pond-cushion. Leave empty to use the name.
+        </p>
+        @if (errorFor('slug'); as m) {
+          <p class="field__error" id="p-slug-error">{{ m }}</p>
+        }
+      </div>
+
+      <div class="field">
+        <label for="p-description">Description</label>
+        <textarea
+          id="p-description"
+          rows="4"
+          formControlName="description"
+          [attr.aria-invalid]="!!errorFor('description')"
+          [attr.aria-describedby]="describedBy('description')"
+        ></textarea>
+        @if (errorFor('description'); as m) {
+          <p class="field__error" id="p-description-error">{{ m }}</p>
+        }
+      </div>
+
+      <div class="field-row">
+        <div class="field">
+          <label for="p-materials">Materials</label>
+          <input
+            id="p-materials"
+            formControlName="materials"
+            [attr.aria-invalid]="!!errorFor('materials')"
+            [attr.aria-describedby]="describedBy('materials')"
+          />
+          @if (errorFor('materials'); as m) {
+            <p class="field__error" id="p-materials-error">{{ m }}</p>
+          }
+        </div>
+        <div class="field">
+          <label for="p-dimensions">Dimensions</label>
+          <input
+            id="p-dimensions"
+            formControlName="dimensions"
+            [attr.aria-invalid]="!!errorFor('dimensions')"
+            [attr.aria-describedby]="describedBy('dimensions')"
+          />
+          @if (errorFor('dimensions'); as m) {
+            <p class="field__error" id="p-dimensions-error">{{ m }}</p>
+          }
+        </div>
+      </div>
+
+      <div class="field-row">
+        <div class="field">
+          <label for="p-categoryId">Category</label>
+          <select
+            id="p-categoryId"
+            formControlName="categoryId"
+            [attr.aria-invalid]="!!errorFor('categoryId')"
+            [attr.aria-describedby]="describedBy('categoryId')"
+          >
+            <option value="" disabled>Choose…</option>
+            @for (c of categories.value() ?? []; track c.id) {
+              <option [value]="c.id">{{ c.name }}</option>
+            }
+          </select>
+          @if (errorFor('categoryId'); as m) {
+            <p class="field__error" id="p-categoryId-error">{{ m }}</p>
+          }
+        </div>
+        <div class="field">
+          <label for="p-artisan">Artisan</label>
+          <select id="p-artisan" formControlName="artisanId">
+            <option value="">None</option>
+            @for (a of artisans.value() ?? []; track a.id) {
+              <option [value]="a.id">{{ a.name }}</option>
+            }
+          </select>
+        </div>
+      </div>
+
+      <fieldset class="field-row">
+        <legend class="visually-hidden">Price and stock</legend>
+        <div class="field">
+          <label for="p-price">Price (Tk)</label>
+          <input
+            id="p-price"
+            type="number"
+            inputmode="decimal"
+            min="1"
+            step="1"
+            formControlName="price"
+            [attr.aria-invalid]="!!errorFor('price')"
+            [attr.aria-describedby]="describedBy('price')"
+          />
+          @if (errorFor('price'); as m) {
+            <p class="field__error" id="p-price-error">{{ m }}</p>
+          }
+        </div>
+        <div class="field">
+          <label for="p-type">Kind</label>
+          <select id="p-type" formControlName="inventoryType">
+            <option value="Unique">One of a kind (stock 0 or 1)</option>
+            <option value="Standard">Sold by quantity</option>
+          </select>
+        </div>
+        <div class="field">
+          <label for="p-stockQuantity">Stock</label>
+          <input
+            id="p-stockQuantity"
+            type="number"
+            inputmode="numeric"
+            min="0"
+            step="1"
+            formControlName="stockQuantity"
+            [attr.aria-invalid]="!!errorFor('stockQuantity')"
+            [attr.aria-describedby]="describedBy('stockQuantity', 'p-stock-hint')"
+          />
+          <p class="field__hint" id="p-stock-hint">
+            {{
+              form.controls.inventoryType.value === 'Unique'
+                ? '1 = for sale, 0 = sold.'
+                : 'Units ready to ship.'
+            }}
+          </p>
+          @if (errorFor('stockQuantity'); as m) {
+            <p class="field__error" id="p-stockQuantity-error">{{ m }}</p>
+          }
+        </div>
+      </fieldset>
+
+      <label class="check">
+        <input type="checkbox" formControlName="isActive" />
+        <span>On sale in the shop</span>
+      </label>
+
+      @if (error(); as message) {
+        <p class="form-error" id="product-error" role="alert" tabindex="-1">{{ message }}</p>
+      }
+
+      <div class="form-actions">
+        <button class="btn btn--primary" type="submit" [attr.aria-disabled]="saving()">
+          {{ isNew() ? 'Create product' : 'Save changes' }}
+        </button>
+        @if (!isNew() && product.value()?.isActive) {
+          <button class="btn btn--ghost" type="button" (click)="archive()">Archive</button>
+        }
+      </div>
+    </form>
+
+    @if (!isNew()) {
+      <section class="panel" aria-labelledby="photos-title">
+        <h2 id="photos-title" tabindex="-1">Photos</h2>
+        @if (product.value()?.images?.length) {
+          <ul class="photos">
+            @for (img of product.value()!.images; track img.id; let first = $first) {
+              <li>
+                <!-- The caption beside it carries the description, so the image itself is decorative here. -->
+                <img [src]="img.url" alt="" width="90" height="112" loading="lazy" />
+                <span class="photos__alt"
+                  >{{ img.alt }}
+                  @if (first) {
+                    <span class="pill">Cover</span>
+                  }
+                </span>
+                @if (pendingRemoveId() === img.id) {
+                  <span
+                    class="photos__confirm"
+                    role="group"
+                    [attr.aria-label]="'Remove photo: ' + img.alt + '?'"
+                  >
+                    <button
+                      class="link-button link-button--danger"
+                      type="button"
+                      (click)="removeImage(img.id)"
+                    >
+                      Remove
+                    </button>
+                    <button class="link-button" type="button" (click)="pendingRemoveId.set(null)">
+                      Keep
+                    </button>
+                  </span>
+                } @else {
+                  <button
+                    class="link-button"
+                    type="button"
+                    (click)="pendingRemoveId.set(img.id)"
+                    [attr.aria-label]="'Remove photo: ' + img.alt"
+                  >
+                    Remove
+                  </button>
+                }
+              </li>
+            }
+          </ul>
+        } @else {
+          <p class="muted">No photos yet. The first one you add becomes the cover.</p>
+        }
+
+        <form
+          [formGroup]="imageForm"
+          class="upload"
+          (submit)="$event.preventDefault(); upload(file)"
+          aria-label="Add a photo"
+          novalidate
+        >
+          <div class="field">
+            <label for="image-alt">Describe the photo</label>
+            <input
+              id="image-alt"
+              formControlName="alt"
+              [attr.aria-invalid]="imageForm.controls.alt.touched && imageForm.controls.alt.invalid"
+              [attr.aria-describedby]="
+                imageForm.controls.alt.touched && imageForm.controls.alt.invalid
+                  ? 'image-alt-hint image-alt-error'
+                  : 'image-alt-hint'
+              "
+            />
+            <p class="field__hint" id="image-alt-hint">
+              For people who can't see it, e.g. "Lotus cushion, close-up of the stitching".
+            </p>
+            @if (imageForm.controls.alt.touched && imageForm.controls.alt.invalid) {
+              <p class="field__error" id="image-alt-error">
+                Describe the photo before uploading it.
+              </p>
+            }
+          </div>
+          <div class="field">
+            <label for="image-file">Photo (JPEG, PNG or WebP, up to 5 MB)</label>
+            <input
+              #file
+              id="image-file"
+              type="file"
+              accept="image/jpeg,image/png,image/webp"
+              [attr.aria-invalid]="!!photoError()"
+              [attr.aria-describedby]="photoError() ? 'image-file-error' : null"
+              (change)="photoError.set(null)"
+            />
+            @if (photoError(); as m) {
+              <p class="field__error" id="image-file-error">{{ m }}</p>
+            }
+          </div>
+          <button class="btn btn--ghost" type="submit" [attr.aria-disabled]="uploading()">
+            {{ uploading() ? 'Uploading…' : 'Add photo' }}
+          </button>
+        </form>
+      </section>
+    } @else {
+      <p class="muted">Save the product first, then add photos.</p>
+    }
+  </div>
+}

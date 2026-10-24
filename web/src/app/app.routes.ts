@@ -1,5 +1,5 @@
 import { Routes } from '@angular/router';
-import { authGuard } from './core/auth/auth.guards';
+import { adminGuard, authGuard } from './core/auth/auth.guards';
 
 export const routes: Routes = [
   {
@@ -54,6 +54,11 @@ export const routes: Routes = [
     path: 'register',
     title: 'Create account · Kinbo',
     loadComponent: () => import('./features/account/register.page').then((m) => m.RegisterPage),
+  },
+  {
+    path: 'admin',
+    canActivate: [adminGuard],
+    loadChildren: () => import('./features/admin/admin.routes').then((m) => m.ADMIN_ROUTES),
   },
   {
     path: 'privacy',

@@ -27,3 +27,6 @@ coverage/
 # Claude Code local-only settings
 .claude/settings.local.json
 .claude/launch.json
+
+# Local image uploads (dev only)
+api/Shop.Api/App_Data/

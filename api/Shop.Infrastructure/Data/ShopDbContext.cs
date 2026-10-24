@@ -106,7 +106,8 @@ public class ShopDbContext(DbContextOptions<ShopDbContext> options, TenantContex
 
         b.Entity<Order>(e =>
         {
-            e.HasIndex(o => o.Number).IsUnique();
+            // Unique per store, matching the store-filtered clash check when a number is generated.
+            e.HasIndex(o => new { o.StoreId, o.Number }).IsUnique();
             e.HasIndex(o => new { o.StoreId, o.UserId });
             e.Property(o => o.Status).HasConversion<string>().HasMaxLength(20);
             e.Property(o => o.PaymentMethod).HasConversion<string>().HasMaxLength(20);

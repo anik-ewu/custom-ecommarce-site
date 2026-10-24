@@ -156,6 +156,11 @@ a {
   }
 }
 
+.btn--danger {
+  background: var(--color-danger);
+  color: var(--color-on-accent);
+}
+
 .btn--ghost {
   background: transparent;
   border-color: var(--color-border);

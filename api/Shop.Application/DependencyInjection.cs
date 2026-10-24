@@ -1,5 +1,6 @@
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Shop.Application.Admin;
 using Shop.Application.Auth;
 using Shop.Application.Carts;
 using Shop.Application.Catalog;
@@ -20,6 +21,11 @@ public static class DependencyInjection
         services.AddHostedService<ReservationSweeper>();
         services.Configure<ShopOptions>(config.GetSection("Shop"));
         services.AddScoped<CheckoutService>();
+        services.AddScoped<AdminProductService>();
+        services.AddScoped<AdminOrderService>();
+        services.AddScoped<AdminDashboardService>();
+        services.AddScoped<AdminArtisanService>();
+        services.AddScoped<ImageUploadService>();
         return services;
     }
 }
