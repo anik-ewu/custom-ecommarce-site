@@ -1,0 +1,132 @@
+.order-page {
+  display: grid;
+  justify-items: start;
+  gap: var(--space-4);
+  max-width: 44rem;
+  padding-block: var(--space-6) var(--space-8);
+
+  h1:focus {
+    outline: none;
+  }
+}
+
+.crumbs a {
+  display: inline-flex;
+  align-items: center;
+  min-height: var(--tap-target);
+  font-size: var(--text-sm);
+}
+
+.eyebrow {
+  margin: 0;
+  font-size: var(--text-sm);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.lead {
+  margin: 0;
+  font-size: var(--text-lg);
+}
+
+// Progress as a running stitch: completed steps are stitched in accent thread, the rest a faint dotted guide.
+.steps {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: var(--space-2);
+  width: 100%;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  font-size: var(--text-xs);
+  color: var(--color-muted);
+
+  li {
+    padding-block-start: var(--space-3);
+    border-top: var(--stitch-weight) dotted var(--color-border-strong);
+  }
+
+  .steps__done {
+    border-top-style: dashed;
+    border-top-color: var(--color-accent-strong);
+    color: var(--color-ink);
+  }
+
+  [aria-current='step'] {
+    font-weight: var(--weight-semibold);
+  }
+}
+
+.card {
+  display: grid;
+  gap: var(--space-5);
+  width: 100%;
+  padding: var(--space-5);
+  border: var(--stitch-weight) dashed var(--color-stitch);
+  border-radius: var(--radius-lg);
+  background: var(--color-surface);
+}
+
+.items {
+  display: grid;
+  gap: var(--space-2);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.items li,
+.totals div {
+  display: flex;
+  justify-content: space-between;
+  gap: var(--space-3);
+}
+
+.totals {
+  display: grid;
+  gap: var(--space-2);
+  margin: 0;
+
+  dd {
+    margin: 0;
+  }
+}
+
+.totals__total {
+  font-weight: var(--weight-semibold);
+}
+
+.address {
+  h2 {
+    margin: 0 0 var(--space-2);
+    font-size: var(--text-lg);
+  }
+
+  p {
+    margin: 0;
+  }
+}
+
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-5);
+
+  .stitch-link {
+    display: inline-flex;
+    align-items: center;
+    min-height: var(--tap-target);
+  }
+}
+
+.help {
+  margin: 0;
+  font-size: var(--text-sm);
+
+  a {
+    display: inline-flex;
+    align-items: center;
+    min-height: var(--tap-target);
+  }
+}

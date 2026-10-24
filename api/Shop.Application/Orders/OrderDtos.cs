@@ -19,6 +19,22 @@ public sealed record CheckoutRequest(
 
 public sealed record CheckoutSummaryDto(decimal Subtotal, decimal ShippingFee, decimal Total, decimal FreeShippingThreshold, int ItemCount);
 
+public sealed record OrderHistoryQuery
+{
+    [Range(1, 1000)] public int Page { get; init; } = 1;
+    [Range(1, 50)] public int PageSize { get; init; } = 10;
+}
+
+/// <summary>One row in the account's order history: enough to recognise the order without opening it.</summary>
+public sealed record OrderSummaryDto(
+    string Number,
+    string Status,
+    DateTime CreatedAt,
+    decimal Total,
+    int ItemCount,
+    string FirstItemName,
+    string? FirstItemImageUrl);
+
 public sealed record OrderItemDto(Guid ProductId, string Name, decimal Price, int Quantity, decimal LineTotal);
 
 public sealed record OrderDto(

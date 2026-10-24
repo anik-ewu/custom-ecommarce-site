@@ -83,6 +83,30 @@ public sealed class CheckoutService(
         return ToDto(order);
     }
 
+    public async Task<Paged<OrderSummaryDto>> GetOrdersAsync(Guid userId, OrderHistoryQuery query, CancellationToken ct)
+    {
+        var orders = db.Orders.AsNoTracking().Where(o => o.UserId == userId);
+        var total = await orders.CountAsync(ct);
+        var items = await orders
+            .OrderByDescending(o => o.CreatedAt).ThenBy(o => o.Number)
+            .Skip((query.Page - 1) * query.PageSize)
+            .Take(query.PageSize)
+            .Select(o => new OrderSummaryDto(
+                o.Number,
+                o.Status.ToString(),
+                o.CreatedAt,
+                o.Total,
+                o.Items.Sum(i => i.Quantity),
+                o.Items.OrderBy(i => i.NameSnapshot).Select(i => i.NameSnapshot).First(),
+                // The product may since be edited or hidden; its current first photo is only a thumbnail.
+                db.Products
+                    .Where(p => p.Id == o.Items.OrderBy(i => i.NameSnapshot).Select(i => i.ProductId).First())
+                    .SelectMany(p => p.Images.OrderBy(img => img.SortOrder).Select(img => img.Url).Take(1))
+                    .FirstOrDefault()))
+            .ToListAsync(ct);
+        return new Paged<OrderSummaryDto>(items, query.Page, query.PageSize, total);
+    }
+
     public async Task<OrderDto> GetOrderAsync(Guid userId, string number, CancellationToken ct)
     {
         var order = await db.Orders.AsNoTracking().Include(o => o.Items)

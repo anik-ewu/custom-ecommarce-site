@@ -1,0 +1,105 @@
+<section class="container order-page" aria-labelledby="order-title">
+  @if (order.hasValue()) {
+    @let o = order.value();
+    @if (!justPlaced) {
+      <nav class="crumbs" aria-label="Breadcrumb">
+        <a class="stitch-link" routerLink="/account">← Back to your orders</a>
+      </nav>
+    }
+
+    <p class="eyebrow muted">Order {{ o.number }} · {{ o.createdAt | date: 'd MMM y' }}</p>
+    @if (justPlaced) {
+      <h1 id="order-title" tabindex="-1">
+        Thank you, {{ o.shippingAddress.fullName.split(' ')[0] }}.
+      </h1>
+      <p class="lead">
+        Your order is placed. We'll call {{ o.shippingAddress.phone }} to confirm, then deliver in
+        3–5 days. You pay {{ o.total | taka }} in cash when it arrives.
+      </p>
+    } @else {
+      <h1 id="order-title" tabindex="-1">{{ statusLabel(o.status) }}</h1>
+    }
+
+    @if (o.status === 'Cancelled') {
+      <p class="lead muted">This order was cancelled. You haven't been charged.</p>
+    } @else {
+      <ol class="steps" aria-label="Order progress">
+        @for (step of steps; track step; let i = $index) {
+          <li
+            [class.steps__done]="i <= stepIndex()"
+            [attr.aria-current]="i === stepIndex() ? 'step' : null"
+          >
+            {{ statusLabel(step) }}
+            @if (i < stepIndex()) {
+              <span class="visually-hidden">, completed</span>
+            }
+          </li>
+        }
+      </ol>
+    }
+
+    <div class="card">
+      <ul class="items">
+        @for (item of o.items; track item.productId) {
+          <li>
+            <span
+              >{{ item.name }}
+              @if (item.quantity > 1) {
+                <span class="muted">× {{ item.quantity }}</span>
+              }
+            </span>
+            <span>{{ item.lineTotal | taka }}</span>
+          </li>
+        }
+      </ul>
+      <dl class="totals">
+        <div>
+          <dt>Subtotal</dt>
+          <dd>{{ o.subtotal | taka }}</dd>
+        </div>
+        <div>
+          <dt>Delivery</dt>
+          <dd>{{ o.shippingFee === 0 ? 'Free' : (o.shippingFee | taka) }}</dd>
+        </div>
+        <div class="totals__total">
+          <dt>Total, cash on delivery</dt>
+          <dd>{{ o.total | taka }}</dd>
+        </div>
+      </dl>
+      <div class="address">
+        <h2>Delivering to</h2>
+        <p>
+          {{ o.shippingAddress.fullName }} · {{ o.shippingAddress.phone }}<br />
+          {{ o.shippingAddress.line1 }}<br />
+          @if (o.shippingAddress.line2) {
+            {{ o.shippingAddress.line2 }}<br />
+          }
+          {{ o.shippingAddress.city }} {{ o.shippingAddress.postalCode }}
+        </p>
+      </div>
+    </div>
+
+    @if (justPlaced) {
+      <div class="actions">
+        <a class="btn btn--primary" routerLink="/shop">Continue shopping</a>
+        <a class="stitch-link" routerLink="/account">See all your orders</a>
+      </div>
+    } @else {
+      <p class="muted help">
+        Need to change something?
+        <a class="stitch-link" [href]="'mailto:' + shop.contactEmail + '?subject=Order ' + o.number"
+          >Email us</a
+        >
+        before it ships.
+      </p>
+    }
+  } @else if (notFound()) {
+    <h1 id="order-title">We couldn't find that order</h1>
+    <a class="btn btn--primary" routerLink="/account">See your orders</a>
+  } @else if (order.error()) {
+    <h1 id="order-title">Something went wrong</h1>
+    <button class="btn btn--ghost" type="button" (click)="order.reload()">Try again</button>
+  } @else {
+    <p class="muted" aria-busy="true">Loading your order…</p>
+  }
+</section>

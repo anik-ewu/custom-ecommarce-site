@@ -37,8 +37,13 @@ export const routes: Routes = [
     path: 'orders/:number',
     title: 'Your order · Kinbo',
     canActivate: [authGuard],
-    loadComponent: () =>
-      import('./features/checkout/order-confirmation.page').then((m) => m.OrderConfirmationPage),
+    loadComponent: () => import('./features/account/order.page').then((m) => m.OrderPage),
+  },
+  {
+    path: 'account',
+    title: 'Your account · Kinbo',
+    canActivate: [authGuard],
+    loadComponent: () => import('./features/account/account.page').then((m) => m.AccountPage),
   },
   {
     path: 'login',

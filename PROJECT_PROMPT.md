@@ -134,7 +134,7 @@ Because Vercel proxies `/api` to Render, the cookie is first-party and **no CORS
 - `GET /categories` (with a tile `imageUrl`), `GET /products?category=&q=&sort=&type=unique|standard&inStock=&page=&pageSize=`, `GET /products/{slug}`, `GET /artisans`, `GET /artisans/{id}` (with their pieces)
 - `GET /cart`, `POST /cart/items`, `PATCH /cart/items/{id}`, `DELETE /cart/items/{id}`
 - `POST /checkout` (returns order, or Stripe checkout URL), `POST /payments/stripe/webhook`
-- `GET /orders`, `GET /orders/{number}`
+- `GET /orders?page=&pageSize=` (own orders, newest first), `GET /orders/{number}` (own order only)
 - Admin: `/admin/products` (CRUD + image upload), `/admin/orders` (list, update status), `/admin/artisans`, `/admin/dashboard` (sales today/week, low stock, recent orders)
 - `GET /health`
 
@@ -207,7 +207,7 @@ Tick the box **in the same commit** that finishes the step. A new session starts
 - [x] 7. `feat(cart)`: cart, reservations, expiry
 - [x] 8. `feat(checkout)`: orders with COD
 - [ ] 9. `feat(payments)`: Stripe test mode + idempotent webhook
-- [ ] 10. `feat(account)`: order history
+- [x] 10. `feat(account)`: order history
 - [ ] 11. `feat(admin)`: dashboard, products, orders, image upload
 - [ ] 12. `chore(deploy)`: Dockerfile, Render, Vercel proxy, Neon, README, demo video script
 

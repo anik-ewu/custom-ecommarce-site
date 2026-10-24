@@ -127,7 +127,7 @@ export class CheckoutPage {
       );
       await this.cart.load();
       this.toasts.show(`Order ${order.number} placed. Thank you!`);
-      void this.router.navigate(['/orders', order.number]);
+      void this.router.navigate(['/orders', order.number], { state: { placed: true } });
     } catch (e) {
       const problem = toProblem(e);
       this.error.set(problem.title);

@@ -1,6 +1,7 @@
 using System.Security.Claims;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Shop.Application.Common;
 using Shop.Application.Orders;
 
 namespace Shop.Api.Orders;
@@ -16,6 +17,10 @@ public sealed class CheckoutController(CheckoutService checkout) : ControllerBas
     [HttpPost("checkout")]
     public Task<OrderDto> Place(CheckoutRequest request, CancellationToken ct) =>
         checkout.PlaceOrderAsync(UserId, request, ct);
+
+    [HttpGet("orders")]
+    public Task<Paged<OrderSummaryDto>> Orders([FromQuery] OrderHistoryQuery query, CancellationToken ct) =>
+        checkout.GetOrdersAsync(UserId, query, ct);
 
     [HttpGet("orders/{number}")]
     public Task<OrderDto> Order(string number, CancellationToken ct) => checkout.GetOrderAsync(UserId, number, ct);

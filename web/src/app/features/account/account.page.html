@@ -1,0 +1,81 @@
+<section class="container account" aria-labelledby="account-title">
+  @if (auth.user(); as user) {
+    <header class="account__head">
+      <div>
+        <h1 id="account-title">Hello, {{ user.name.split(' ')[0] }}</h1>
+        <p class="muted">{{ user.email }}</p>
+      </div>
+      <button class="btn btn--ghost" type="button" (click)="signOut()">Sign out</button>
+    </header>
+  }
+
+  <h2 id="orders-title">Your orders</h2>
+
+  @if (orders.hasValue()) {
+    @let result = orders.value();
+    @if (result.items.length === 0) {
+      <div class="empty">
+        <p class="muted">No orders yet. Every piece you buy will appear here.</p>
+        <a class="btn btn--primary" routerLink="/shop">Explore the collection</a>
+      </div>
+    } @else {
+      <ul class="orders" aria-labelledby="orders-title">
+        @for (o of result.items; track o.number) {
+          <li>
+            <a class="order" [routerLink]="['/orders', o.number]">
+              <span class="order__media" aria-hidden="true">
+                @if (o.firstItemImageUrl) {
+                  <img [src]="o.firstItemImageUrl" alt="" width="90" height="112" loading="lazy" />
+                }
+              </span>
+              <span class="order__body">
+                <span class="order__title">
+                  {{ o.firstItemName }}
+                  @if (o.itemCount > 1) {
+                    <span class="muted">+ {{ o.itemCount - 1 }} more</span>
+                  }
+                </span>
+                <span class="order__meta muted">
+                  {{ o.number }} · {{ o.createdAt | date: 'd MMM y' }}
+                </span>
+              </span>
+              <span class="order__side">
+                <span class="status" [attr.data-status]="o.status">{{
+                  statusLabel(o.status)
+                }}</span>
+                <span class="order__total">{{ o.total | taka }}</span>
+              </span>
+            </a>
+          </li>
+        }
+      </ul>
+
+      @if (result.totalPages > 1) {
+        <nav class="pager" aria-label="Order pages">
+          @if (page() > 1) {
+            <button class="btn btn--ghost" type="button" (click)="page.set(page() - 1)">
+              Newer
+            </button>
+          }
+          <span class="muted">Page {{ page() }} of {{ result.totalPages }}</span>
+          @if (page() < result.totalPages) {
+            <button class="btn btn--ghost" type="button" (click)="page.set(page() + 1)">
+              Older
+            </button>
+          }
+        </nav>
+      }
+    }
+  } @else if (orders.error()) {
+    <div class="empty">
+      <p class="muted">Your orders didn't load. Please check your connection.</p>
+      <button class="btn btn--ghost" type="button" (click)="orders.reload()">Try again</button>
+    </div>
+  } @else {
+    <ul class="orders" aria-busy="true" aria-label="Loading your orders">
+      @for (i of [1, 2, 3]; track i) {
+        <li class="skeleton"></li>
+      }
+    </ul>
+  }
+</section>

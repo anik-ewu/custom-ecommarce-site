@@ -5,7 +5,6 @@ import { NavigationEnd, Router, RouterLink, RouterLinkActive } from '@angular/ro
 import { filter } from 'rxjs';
 import { AuthService } from '../auth/auth.service';
 import { CartStore } from '../cart/cart.store';
-import { ToastService } from '../../shared/toast/toast.service';
 
 @Component({
   selector: 'app-site-header',
@@ -18,7 +17,6 @@ export class SiteHeader {
   protected readonly auth = inject(AuthService);
   protected readonly cart = inject(CartStore);
   private readonly router = inject(Router);
-  private readonly toasts = inject(ToastService);
 
   protected readonly searchForm = inject(NonNullableFormBuilder).group({ q: '' });
 
@@ -38,12 +36,5 @@ export class SiteHeader {
   search(): void {
     const q = this.searchForm.controls.q.value.trim();
     void this.router.navigate(['/shop'], { queryParams: q ? { q } : {} });
-  }
-
-  logout(): void {
-    this.auth.logout().subscribe(() => {
-      this.toasts.show('You are signed out.');
-      void this.router.navigateByUrl('/');
-    });
   }
 }

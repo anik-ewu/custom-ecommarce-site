@@ -72,10 +72,6 @@
   justify-content: center;
 }
 
-.header__greeting {
-  display: none;
-}
-
 .header__cart {
   gap: var(--space-1);
 }
@@ -109,9 +105,5 @@
   .header__search {
     justify-self: end;
     width: min(100%, 22rem);
-  }
-
-  .header__greeting {
-    display: inline;
   }
 }

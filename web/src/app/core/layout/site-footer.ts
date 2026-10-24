@@ -14,7 +14,7 @@ import { RouterLink } from '@angular/router';
         <nav aria-label="Footer">
           <ul>
             <li><a class="stitch-link" routerLink="/shop">Shop the collection</a></li>
-            <li><a class="stitch-link" routerLink="/login">Your account</a></li>
+            <li><a class="stitch-link" routerLink="/account">Your account</a></li>
             <li><a class="stitch-link" routerLink="/privacy">Privacy policy</a></li>
             <li><a class="stitch-link" routerLink="/terms">Terms and conditions</a></li>
           </ul>

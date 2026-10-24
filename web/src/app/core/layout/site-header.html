@@ -15,8 +15,15 @@
 
     <div class="header__actions">
       @if (auth.user(); as user) {
-        <span class="header__greeting muted">Hi, {{ user.name.split(' ')[0] }}</span>
-        <button class="header__action" type="button" (click)="logout()">Sign out</button>
+        <a
+          class="header__action stitch-link"
+          routerLink="/account"
+          routerLinkActive
+          #account="routerLinkActive"
+          [attr.aria-current]="account.isActive ? 'page' : null"
+          [attr.aria-label]="'Your account, ' + user.name"
+          >Account</a
+        >
       } @else {
         <a class="header__action stitch-link" routerLink="/login">Sign in</a>
       }
