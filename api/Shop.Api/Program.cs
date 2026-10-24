@@ -53,7 +53,7 @@ if (!app.Environment.IsProduction() && app.Services.GetService<LocalImageStorage
 }
 
 app.UseWhen(
-    ctx => !ctx.Request.Path.StartsWithSegments("/api/health"),
+    ctx => !ctx.Request.Path.StartsWithSegments("/api/health") && !ctx.Request.Path.StartsWithSegments("/api/ping"),
     branch => branch.UseMiddleware<TenantMiddleware>());
 
 app.UseAuthentication();

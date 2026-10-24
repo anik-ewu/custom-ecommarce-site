@@ -99,6 +99,9 @@ Business contact details shown on the legal pages live in `web/src/app/core/shop
 3. **Vercel**: in `web/vercel.json`, set the `/api` rewrite destination to your Render URL and push. Then import
    the repo with **Root Directory `web`**; `vercel.json` sets the build, and `package.json` pins Node 24.
 4. Open the Vercel URL and use **Try the demo**.
+5. **Keep the API awake**: Render's free tier sleeps after 15 idle minutes. Point a free uptime monitor
+   (UptimeRobot, cron-job.org) at `https://<your-render-url>/api/ping` every 10–14 minutes. Ping, not
+   `/api/health`: ping skips the database, so Neon can still suspend and save compute hours.
 
 A demo walkthrough script for a short video is in [docs/demo-script.md](docs/demo-script.md).
 

@@ -14,4 +14,12 @@ public sealed class HealthTests(ApiFactory factory)
 
         response.StatusCode.Should().Be(HttpStatusCode.OK);
     }
+
+    [Fact]
+    public async Task Ping_returns_ok()
+    {
+        var response = await factory.CreateClient().GetAsync("/api/ping");
+
+        response.StatusCode.Should().Be(HttpStatusCode.OK);
+    }
 }
