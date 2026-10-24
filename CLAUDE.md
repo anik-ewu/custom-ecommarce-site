@@ -11,7 +11,7 @@ Read this before every task. The full spec is in `PROJECT_PROMPT.md`.
 
 - Work directly on **`main`** for now. No feature branches.
 - **One feature = one commit, then push.** Don't batch several features into one commit, and don't leave work uncommitted between features. Tick the step's box in `PROJECT_PROMPT.md` §10 in that same commit.
-- The quality gate is `./scripts/check.sh` from the repo root. It runs `dotnet build api/Shop.sln -warnaserror`, `dotnet test api/Shop.sln`, `npm --prefix web run lint` and `npm --prefix web run build`. CI runs the same script. Never commit a red build.
+- The quality gate is `./scripts/check.sh` from the repo root. It runs `dotnet build api/Shop.sln -warnaserror`, `dotnet test api/Shop.sln`, `npm --prefix web run lint`, `npm --prefix web test` and `npm --prefix web run build`. CI runs the same script. Never commit a red build.
 - Commit messages follow Conventional Commits: `feat(cart): reserve unique items for 15 minutes`, `fix(auth): ...`, `chore(ci): ...`, `test(...)`, `docs(...)`.
 - Commit body: 1–3 lines on *why*, if it isn't obvious.
 - After pushing, check that GitHub Actions passes (`gh run list --limit 1`). If CI fails, the next commit fixes it before any new feature.

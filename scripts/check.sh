@@ -1,26 +1,27 @@
 #!/usr/bin/env bash
 # Quality gate: the same checks run locally, in the commit hook and in CI.
-# Parts whose project doesn't exist yet are skipped, so this stays green before step 1.
 set -euo pipefail
 cd "$(dirname "$0")/.."
 
-if [ -f api/Shop.sln ] || [ -f api/Shop.slnx ]; then
-  sln=$(ls api/Shop.sln* | head -n1)
-  echo "==> dotnet build $sln"
-  dotnet build "$sln" -warnaserror --nologo -v q
-  echo "==> dotnet test $sln"
-  dotnet test "$sln" --no-build --nologo -v q
-else
-  echo "==> skip api (no api/Shop.sln yet)"
+# Use the Node version pinned in .nvmrc when nvm is installed (CI uses setup-node instead).
+if [ -z "${CI:-}" ] && [ -s "${NVM_DIR:-$HOME/.nvm}/nvm.sh" ]; then
+  set +u
+  # shellcheck disable=SC1091
+  . "${NVM_DIR:-$HOME/.nvm}/nvm.sh" --no-use
+  nvm use --silent >/dev/null
+  set -u
 fi
 
-if [ -f web/package.json ]; then
-  echo "==> web lint"
-  npm --prefix web run lint
-  echo "==> web build"
-  npm --prefix web run build
-else
-  echo "==> skip web (no web/package.json yet)"
-fi
+echo "==> dotnet build api/Shop.sln"
+dotnet build api/Shop.sln -warnaserror --nologo -v q
+echo "==> dotnet test api/Shop.sln"
+dotnet test api/Shop.sln --no-build --nologo -v q
+
+echo "==> web lint"
+npm --prefix web run lint
+echo "==> web test"
+npm --prefix web test
+echo "==> web build"
+npm --prefix web run build
 
 echo "==> all checks passed"

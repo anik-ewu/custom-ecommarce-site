@@ -194,7 +194,7 @@ Add a "Try the demo" option on the login page that signs in as the demo customer
 Tick the box **in the same commit** that finishes the step. A new session starts at the first unticked box.
 
 - [x] 0. `chore(claude)`: project rules, hooks and agents
-- [ ] 1. `chore`: solution, Angular app (with Prettier + ESLint), docker-compose, `scripts/check.sh` filled in, CI calling it, health endpoint
+- [x] 1. `chore`: solution, Angular app (with Prettier + ESLint), docker-compose, `scripts/check.sh` filled in, CI calling it, health endpoint
 - [ ] 2. `feat(db)`: entities, DbContext, tenant filter, migrations, seed
 - [ ] 3. `feat(auth)`: register/login, JWT + refresh rotation, interceptor, guards
 - [ ] 4. `feat(ui)`: design tokens, typography, stitch motif, app shell (header, footer, toast)
