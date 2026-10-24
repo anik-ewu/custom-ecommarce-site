@@ -17,6 +17,13 @@ npm --prefix web ci && npm --prefix web start   # http://localhost:4200, /api is
 
 Quality gate (same as CI): `./scripts/check.sh`.
 
+## Try it
+
+1. Open http://localhost:4200, pick a one-of-a-kind piece and add it: it is held for you for 15 minutes
+   (countdown in the cart drawer). Open the same piece in a private window: it shows as reserved.
+2. Checkout asks you to sign in: use **Try the demo as a shopper** on the login page. Your cart comes with you.
+3. Place a cash-on-delivery order (any Bangladeshi mobile number, e.g. 01712345678). The piece is now sold.
+
 Seed users need local passwords (never committed): set `Seed:AdminPassword` and `Seed:DemoPassword` in
 `appsettings.Development.json` or with `dotnet user-secrets --project api/Shop.Api set Seed:DemoPassword <value>`.
 The API migrates and seeds on startup (`Database:MigrateOnStartup`, `Seed:Enabled`).

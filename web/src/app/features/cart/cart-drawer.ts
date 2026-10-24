@@ -27,25 +27,33 @@ import { CartLines } from './cart-lines';
           </button>
         </header>
 
-        @if (store.cart(); as cart) {
-          @if (store.lastAdded(); as added) {
-            <p class="drawer__added">Added: {{ added }}</p>
+        <div class="drawer__body">
+          @if (store.cart(); as cart) {
+            @if (store.lastAdded(); as added) {
+              <p class="drawer__added">Added: {{ added }}</p>
+            }
+            @if (cart.items.length === 0) {
+              <p class="muted">Your cart is empty.</p>
+            } @else {
+              <app-cart-lines [items]="cart.items" emptyFocusId="drawer-title" />
+              <p class="drawer__subtotal">
+                <span>Subtotal</span><strong>{{ cart.subtotal | taka }}</strong>
+              </p>
+            }
           }
-          @if (cart.items.length === 0) {
-            <p class="muted">Your cart is empty.</p>
-          } @else {
-            <app-cart-lines [items]="cart.items" emptyFocusId="drawer-title" />
-            <p class="drawer__subtotal">
-              <span>Subtotal</span><strong>{{ cart.subtotal | taka }}</strong>
-            </p>
-          }
-        }
+        </div>
 
         <div class="drawer__actions">
-          <a class="btn btn--primary btn--block" routerLink="/cart" (click)="close()">View cart</a>
-          <button class="btn btn--ghost btn--block" type="button" (click)="close()">
-            Keep browsing
-          </button>
+          @if (store.count() > 0) {
+            <a class="btn btn--primary btn--block" routerLink="/checkout" (click)="close()"
+              >Checkout</a
+            >
+            <a class="btn btn--ghost btn--block" routerLink="/cart" (click)="close()">View cart</a>
+          } @else {
+            <button class="btn btn--ghost btn--block" type="button" (click)="close()">
+              Keep browsing
+            </button>
+          }
         </div>
       </div>
     </dialog>
@@ -94,6 +102,11 @@ import { CartLines } from './cart-lines';
       color: inherit;
       font-size: var(--text-xl);
       cursor: pointer;
+    }
+    .drawer__body {
+      display: grid;
+      align-content: start;
+      gap: var(--space-4);
     }
     .drawer__added {
       margin: 0;

@@ -1,7 +1,12 @@
-.header {
+:host {
+  // Sticky on the host: the <header> alone sits in a wrapper of its own height, so it couldn't stick.
   position: sticky;
   top: 0;
   z-index: 20;
+  display: block;
+}
+
+.header {
   background: color-mix(in srgb, var(--color-bg) 92%, transparent);
   backdrop-filter: blur(8px);
   border-bottom: 1px solid var(--color-border);

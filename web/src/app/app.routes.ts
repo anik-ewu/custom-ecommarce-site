@@ -1,4 +1,5 @@
 import { Routes } from '@angular/router';
+import { authGuard } from './core/auth/auth.guards';
 
 export const routes: Routes = [
   {
@@ -25,6 +26,19 @@ export const routes: Routes = [
     path: 'cart',
     title: 'Your cart · Kinbo',
     loadComponent: () => import('./features/cart/cart.page').then((m) => m.CartPage),
+  },
+  {
+    path: 'checkout',
+    title: 'Checkout · Kinbo',
+    canActivate: [authGuard],
+    loadComponent: () => import('./features/checkout/checkout.page').then((m) => m.CheckoutPage),
+  },
+  {
+    path: 'orders/:number',
+    title: 'Your order · Kinbo',
+    canActivate: [authGuard],
+    loadComponent: () =>
+      import('./features/checkout/order-confirmation.page').then((m) => m.OrderConfirmationPage),
   },
   {
     path: 'login',

@@ -27,8 +27,9 @@ import { CartLines } from './cart-lines';
                 <span>Subtotal</span><strong>{{ cart.subtotal | taka }}</strong>
               </p>
               <p class="muted summary__note">
-                Shipping is calculated at checkout. Cash on delivery available.
+                Delivery is calculated at checkout. Cash on delivery available.
               </p>
+              <a class="btn btn--primary btn--block" routerLink="/checkout">Checkout</a>
               <a class="btn btn--ghost btn--block" routerLink="/shop">Keep browsing</a>
             </aside>
           </div>

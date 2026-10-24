@@ -3,6 +3,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Shop.Application.Auth;
 using Shop.Application.Carts;
 using Shop.Application.Catalog;
+using Shop.Application.Orders;
 
 namespace Shop.Application;
 
@@ -17,6 +18,8 @@ public static class DependencyInjection
         services.AddScoped<ReservationService>();
         services.AddScoped<CartService>();
         services.AddHostedService<ReservationSweeper>();
+        services.Configure<ShopOptions>(config.GetSection("Shop"));
+        services.AddScoped<CheckoutService>();
         return services;
     }
 }

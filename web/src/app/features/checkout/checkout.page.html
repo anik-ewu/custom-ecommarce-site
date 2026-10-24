@@ -1,0 +1,184 @@
+<section class="container checkout" aria-labelledby="checkout-title">
+  <h1 id="checkout-title">Checkout</h1>
+
+  @if (cart.cart(); as c) {
+    @if (c.items.length === 0) {
+      <div class="empty">
+        <p class="muted">Your cart is empty.</p>
+        <a class="btn btn--primary" routerLink="/shop">Explore the collection</a>
+      </div>
+    } @else {
+      <div class="checkout__layout">
+        <form [formGroup]="form" (ngSubmit)="place()" novalidate aria-labelledby="delivery-title">
+          <h2 id="delivery-title">Delivery</h2>
+
+          <div class="field">
+            <label for="co-name">Full name</label>
+            <input
+              id="co-name"
+              formControlName="fullName"
+              autocomplete="name"
+              [attr.aria-invalid]="invalid('fullName')"
+              [attr.aria-describedby]="invalid('fullName') ? 'co-name-error' : null"
+            />
+            @if (invalid('fullName')) {
+              <p class="field__error" id="co-name-error">Tell us who will receive the parcel.</p>
+            }
+          </div>
+
+          <div class="field">
+            <label for="co-phone">Mobile number</label>
+            <input
+              id="co-phone"
+              type="tel"
+              inputmode="tel"
+              formControlName="phone"
+              autocomplete="tel"
+              [attr.aria-invalid]="invalid('phone')"
+              [attr.aria-describedby]="
+                invalid('phone') ? 'co-phone-hint co-phone-error' : 'co-phone-hint'
+              "
+            />
+            <p class="field__hint" id="co-phone-hint">
+              We'll call before delivery, e.g. 01712345678.
+            </p>
+            @if (invalid('phone')) {
+              <p class="field__error" id="co-phone-error">Enter a Bangladeshi mobile number.</p>
+            }
+          </div>
+
+          <div class="field">
+            <label for="co-line1">Address</label>
+            <input
+              id="co-line1"
+              formControlName="line1"
+              autocomplete="address-line1"
+              [attr.aria-invalid]="invalid('line1')"
+              [attr.aria-describedby]="invalid('line1') ? 'co-line1-error' : null"
+            />
+            @if (invalid('line1')) {
+              <p class="field__error" id="co-line1-error">Enter the street address.</p>
+            }
+          </div>
+
+          <div class="field">
+            <label for="co-line2">Apartment, area (optional)</label>
+            <input id="co-line2" formControlName="line2" autocomplete="address-line2" />
+          </div>
+
+          <div class="field-row">
+            <div class="field">
+              <label for="co-city">City</label>
+              <input
+                id="co-city"
+                formControlName="city"
+                autocomplete="address-level2"
+                [attr.aria-invalid]="invalid('city')"
+                [attr.aria-describedby]="invalid('city') ? 'co-city-error' : null"
+              />
+              @if (invalid('city')) {
+                <p class="field__error" id="co-city-error">Enter the city.</p>
+              }
+            </div>
+            <div class="field">
+              <label for="co-postal">Postal code (optional)</label>
+              <input
+                id="co-postal"
+                formControlName="postalCode"
+                autocomplete="postal-code"
+                inputmode="numeric"
+              />
+            </div>
+          </div>
+
+          <fieldset class="payment">
+            <legend>Payment</legend>
+            <label class="option">
+              <input type="radio" formControlName="paymentMethod" value="CashOnDelivery" />
+              <span>
+                <strong>Cash on delivery</strong>
+                <span class="muted">Pay the courier when your parcel arrives.</span>
+              </span>
+            </label>
+            <p class="muted option__soon">Card payments are coming soon.</p>
+          </fieldset>
+
+          @if (error(); as message) {
+            <p class="form-error" id="checkout-error" role="alert" tabindex="-1">{{ message }}</p>
+          }
+
+          <button
+            class="btn btn--primary btn--block"
+            type="submit"
+            [attr.aria-disabled]="placing()"
+          >
+            {{ placing() ? 'Placing your order…' : 'Place order' }}
+            @if (summary.hasValue()) {
+              · {{ summary.value().total | taka }}
+            }
+          </button>
+        </form>
+
+        <aside class="summary" aria-labelledby="summary-title">
+          <h2 id="summary-title" tabindex="-1">Your order</h2>
+          <ul class="summary__items">
+            @for (item of c.items; track item.id) {
+              <li [class.summary__item--unavailable]="!item.available">
+                <span
+                  >{{ item.name }}
+                  @if (item.quantity > 1) {
+                    <span class="muted">× {{ item.quantity }}</span>
+                  }
+                </span>
+                <span>{{ item.currentPrice * item.quantity | taka }}</span>
+                @if (!item.available) {
+                  <span class="summary__warn">
+                    @if (item.isUnique) {
+                      Your hold ended, so it isn't in the total.
+                      <button class="link-button" type="button" (click)="holdAgain(item.productId)">
+                        Hold it again
+                      </button>
+                    } @else {
+                      Not enough stock. <a routerLink="/cart">Review cart</a>
+                    }
+                  </span>
+                }
+              </li>
+            }
+          </ul>
+          @if (summary.hasValue()) {
+            @let s = summary.value();
+            <dl class="summary__totals">
+              <div>
+                <dt>Subtotal</dt>
+                <dd>{{ s.subtotal | taka }}</dd>
+              </div>
+              <div>
+                <dt>Delivery</dt>
+                <dd>{{ s.shippingFee === 0 ? 'Free' : (s.shippingFee | taka) }}</dd>
+              </div>
+              <div class="summary__total">
+                <dt>Total</dt>
+                <dd>{{ s.total | taka }}</dd>
+              </div>
+            </dl>
+            @if (s.shippingFee > 0) {
+              <p class="muted summary__note">
+                Free delivery on orders of {{ s.freeShippingThreshold | taka }} or more.
+              </p>
+            }
+          } @else if (summary.error()) {
+            <p class="muted">
+              We couldn't load the totals.
+              <button class="link-button" type="button" (click)="summary.reload()">
+                Try again
+              </button>
+            </p>
+          }
+        </aside>
+      </div>
+    }
+  } @else {
+    <p class="muted" aria-busy="true">Loading your order…</p>
+  }
+</section>
