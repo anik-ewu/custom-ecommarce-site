@@ -1,5 +1,6 @@
-import { ChangeDetectionStrategy, Component, input } from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, inject, input } from '@angular/core';
 import { RouterLink } from '@angular/router';
+import { CartStore } from '../../core/cart/cart.store';
 import { TakaPipe } from '../../shared/money/taka.pipe';
 import { ProductCard } from './catalog.models';
 
@@ -21,7 +22,7 @@ import { ProductCard } from './catalog.models';
           />
         }
         @if (p.isUnique) {
-          <span class="badge">One of a kind</span>
+          <span class="badge">{{ badge() }}</span>
         }
         @if (!p.inStock) {
           <span class="badge badge--muted">{{ p.isUnique ? 'Sold' : 'Out of stock' }}</span>
@@ -40,5 +41,12 @@ import { ProductCard } from './catalog.models';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ProductCardComponent {
+  private readonly cart = inject(CartStore);
   readonly product = input.required<ProductCard>();
+
+  protected readonly badge = computed(() => {
+    const p = this.product();
+    if (this.cart.holds(p.id)) return 'In your cart';
+    return p.isReserved && p.inStock ? 'Reserved' : 'One of a kind';
+  });
 }

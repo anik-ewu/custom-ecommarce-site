@@ -12,6 +12,7 @@ export interface ProductCard {
   price: number;
   isUnique: boolean;
   inStock: boolean;
+  isReserved: boolean;
   imageUrl: string | null;
   imageAlt: string | null;
   categorySlug: string;
@@ -44,6 +45,7 @@ export interface ProductDetail {
   price: number;
   isUnique: boolean;
   availableQuantity: number;
+  reservedUntil: string | null;
   images: { url: string; alt: string }[];
   category: Category;
   artisan: ArtisanSummary | null;

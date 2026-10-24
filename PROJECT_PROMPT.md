@@ -110,7 +110,7 @@ Because Vercel proxies `/api` to Render, the cookie is first-party and **no CORS
 
 1. **Unique items:** adding to cart creates a `Reservation` for 15 minutes. Claim with a single conditional update so when two shoppers grab the same piece, exactly one wins; the other gets a clear `409 ITEM_RESERVED` message.
 2. **Standard items:** decrement stock at order placement using optimistic concurrency (`xmin`); retry once on conflict, then return `409 OUT_OF_STOCK`.
-3. **Reservation expiry:** release expired holds lazily on read (cart, product page, checkout) **and** with a background `IHostedService`. Never rely only on the background job (free-tier API sleeps).
+3. **Reservation expiry:** release expired holds lazily on read (cart, product page, checkout) **and** with a background `IHostedService`. Never rely only on the background job (free-tier API sleeps). Product reads treat expired holds as released; the cart read, checkout and the sweeper delete them. Re-adding a piece you already hold does not extend the hold.
 4. **Checkout:** validate cart → re-check prices and stock server-side → create order in one transaction → convert reservations → clear cart.
 5. **Payments:** COD creates the order as `Pending`. Stripe test mode uses Checkout Sessions; the webhook marks the payment `Paid`. Webhooks verify signature and are **idempotent** via `ProcessedWebhookEvent`.
 6. **Tenancy:** `StoreId` resolved once per request (single store for now, from config) and applied via global query filter. A test must prove store A never sees store B's data.
@@ -203,7 +203,7 @@ Tick the box **in the same commit** that finishes the step. A new session starts
 - [x] 4. `feat(ui)`: design tokens, typography, stitch motif, app shell (header, footer, toast)
 - [x] 5. `feat(catalog)`: categories, product list/detail API + pages
 - [x] 6. `feat(home)`: home page, artisans
-- [ ] 7. `feat(cart)`: cart, reservations, expiry
+- [x] 7. `feat(cart)`: cart, reservations, expiry
 - [ ] 8. `feat(checkout)`: orders with COD
 - [ ] 9. `feat(payments)`: Stripe test mode + idempotent webhook
 - [ ] 10. `feat(account)`: order history

@@ -71,6 +71,23 @@
   display: none;
 }
 
+.header__cart {
+  gap: var(--space-1);
+}
+
+.header__count {
+  display: inline-grid;
+  place-items: center;
+  min-width: 1.4rem;
+  height: 1.4rem;
+  padding-inline: var(--space-1);
+  border-radius: var(--radius-pill);
+  background: var(--color-accent-strong);
+  color: var(--color-on-accent);
+  font-size: var(--text-xs);
+  font-weight: var(--weight-semibold);
+}
+
 @media (min-width: 48rem) {
   .header__inner {
     grid-template-columns: auto auto 1fr auto;

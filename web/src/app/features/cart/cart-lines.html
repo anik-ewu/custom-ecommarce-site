@@ -1,0 +1,79 @@
+<ul class="lines">
+  @for (item of items(); track item.id) {
+    <li class="line" [class.line--unavailable]="!item.available">
+      <a
+        class="line__media"
+        [routerLink]="['/product', item.slug]"
+        tabindex="-1"
+        aria-hidden="true"
+      >
+        @if (item.imageUrl) {
+          <img [src]="item.imageUrl" alt="" width="90" height="112" loading="lazy" />
+        }
+      </a>
+
+      <div class="line__body">
+        <a #name class="line__name stitch-link" [routerLink]="['/product', item.slug]">{{
+          item.name
+        }}</a>
+        <p class="line__price">
+          {{ item.currentPrice | taka }}
+          @if (item.currentPrice !== item.unitPrice) {
+            <span class="muted">(was {{ item.unitPrice | taka }})</span>
+          }
+        </p>
+
+        @if (item.isUnique) {
+          @if (item.reservedUntil) {
+            <app-hold-countdown [until]="item.reservedUntil" (expired)="store.load()" />
+          } @else {
+            <p class="line__note">
+              Your hold has ended.
+              <button
+                class="link-button"
+                type="button"
+                [attr.aria-disabled]="store.busy()"
+                (click)="store.add(item.productId)"
+              >
+                Hold it again
+              </button>
+            </p>
+          }
+        } @else {
+          <div class="stepper" role="group" [attr.aria-label]="'Quantity of ' + item.name">
+            <button
+              type="button"
+              [attr.aria-disabled]="item.quantity <= 1 || store.busy()"
+              (click)="item.quantity > 1 && store.update(item.id, item.quantity - 1)"
+              aria-label="One fewer"
+            >
+              −
+            </button>
+            <span aria-live="polite">{{ item.quantity }}</span>
+            <button
+              type="button"
+              [attr.aria-disabled]="store.busy()"
+              (click)="store.update(item.id, item.quantity + 1)"
+              aria-label="One more"
+            >
+              +
+            </button>
+          </div>
+          @if (!item.available) {
+            <p class="line__note">Not enough stock for this quantity.</p>
+          }
+        }
+      </div>
+
+      <button
+        class="line__remove"
+        type="button"
+        [attr.aria-disabled]="store.busy()"
+        (click)="remove(item.id, $index)"
+        [attr.aria-label]="'Remove ' + item.name"
+      >
+        Remove
+      </button>
+    </li>
+  }
+</ul>

@@ -22,6 +22,11 @@ export const routes: Routes = [
     loadComponent: () => import('./features/artisans/artisan.page').then((m) => m.ArtisanPage),
   },
   {
+    path: 'cart',
+    title: 'Your cart · Kinbo',
+    loadComponent: () => import('./features/cart/cart.page').then((m) => m.CartPage),
+  },
+  {
     path: 'login',
     title: 'Sign in · Kinbo',
     loadComponent: () => import('./features/account/login.page').then((m) => m.LoginPage),

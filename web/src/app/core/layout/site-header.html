@@ -20,7 +20,15 @@
       } @else {
         <a class="header__action stitch-link" routerLink="/login">Sign in</a>
       }
-      <a class="header__action header__cart stitch-link" routerLink="/cart">Cart</a>
+      <a
+        class="header__action header__cart stitch-link"
+        routerLink="/cart"
+        [attr.aria-label]="'Cart, ' + cart.count() + (cart.count() === 1 ? ' item' : ' items')"
+        >Cart
+        @if (cart.count() > 0) {
+          <span class="header__count" aria-hidden="true">{{ cart.count() }}</span>
+        }
+      </a>
     </div>
 
     <form class="header__search" role="search" [formGroup]="searchForm" (ngSubmit)="search()">

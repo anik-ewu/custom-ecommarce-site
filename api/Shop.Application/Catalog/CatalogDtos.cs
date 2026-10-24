@@ -22,6 +22,7 @@ public sealed record ProductCardDto(
     decimal Price,
     bool IsUnique,
     bool InStock,
+    bool IsReserved,
     string? ImageUrl,
     string? ImageAlt,
     string CategorySlug,
@@ -43,6 +44,7 @@ public sealed record ProductDetailDto(
     decimal Price,
     bool IsUnique,
     int AvailableQuantity,
+    DateTime? ReservedUntil,
     IReadOnlyList<ImageDto> Images,
     CategoryDto Category,
     ArtisanSummaryDto? Artisan);

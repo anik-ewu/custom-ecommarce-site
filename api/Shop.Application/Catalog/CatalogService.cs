@@ -5,7 +5,7 @@ using Shop.Infrastructure.Data;
 
 namespace Shop.Application.Catalog;
 
-public sealed class CatalogService(ShopDbContext db)
+public sealed class CatalogService(ShopDbContext db, TimeProvider clock)
 {
     public async Task<IReadOnlyList<CategoryDto>> GetCategoriesAsync(CancellationToken ct) =>
         await db.Categories
@@ -36,7 +36,7 @@ public sealed class CatalogService(ShopDbContext db)
             .FirstOrDefaultAsync(ct)
             ?? throw AppException.NotFound("We couldn't find that artisan.");
 
-        var products = await ToCards(db.Products.AsNoTracking()
+        var products = await ToCards(Now, db.Products.AsNoTracking()
                 .Where(p => p.ArtisanId == id && p.IsActive)
                 .OrderByDescending(p => p.CreatedAt).ThenBy(p => p.Name))
             .ToListAsync(ct);
@@ -76,7 +76,7 @@ public sealed class CatalogService(ShopDbContext db)
         };
 
         var total = await products.CountAsync(ct);
-        var items = await ToCards(products.Skip((query.Page - 1) * query.PageSize).Take(query.PageSize))
+        var items = await ToCards(Now, products.Skip((query.Page - 1) * query.PageSize).Take(query.PageSize))
             .ToListAsync(ct);
 
         return new Paged<ProductCardDto>(items, query.Page, query.PageSize, total);
@@ -84,6 +84,8 @@ public sealed class CatalogService(ShopDbContext db)
 
     public async Task<ProductDetailDto> GetProductAsync(string slug, CancellationToken ct)
     {
+        // Expired holds count as released here; the cart read and the sweeper delete the rows.
+        var now = Now;
         var product = await db.Products.AsNoTracking()
             .Where(p => p.Slug == slug && p.IsActive)
             .Select(p => new ProductDetailDto(
@@ -96,6 +98,8 @@ public sealed class CatalogService(ShopDbContext db)
                 p.Price,
                 p.InventoryType == InventoryType.Unique,
                 p.StockQuantity,
+                db.Reservations.Where(r => r.ProductId == p.Id && r.ExpiresAt > now)
+                    .Select(r => (DateTime?)r.ExpiresAt).FirstOrDefault(),
                 p.Images.OrderBy(i => i.SortOrder).Select(i => new ImageDto(i.Url, i.Alt)).ToList(),
                 new CategoryDto(p.Category!.Id, p.Category.Name, p.Category.Slug),
                 p.Artisan == null
@@ -106,7 +110,7 @@ public sealed class CatalogService(ShopDbContext db)
         return product ?? throw AppException.NotFound("We couldn't find that piece.");
     }
 
-    private static IQueryable<ProductCardDto> ToCards(IQueryable<Product> products) =>
+    private IQueryable<ProductCardDto> ToCards(DateTime now, IQueryable<Product> products) =>
         products.Select(p => new ProductCardDto(
             p.Id,
             p.Slug,
@@ -114,10 +118,13 @@ public sealed class CatalogService(ShopDbContext db)
             p.Price,
             p.InventoryType == InventoryType.Unique,
             p.StockQuantity > 0,
+            db.Reservations.Any(r => r.ProductId == p.Id && r.ExpiresAt > now),
             p.Images.OrderBy(i => i.SortOrder).Select(i => i.Url).FirstOrDefault(),
             p.Images.OrderBy(i => i.SortOrder).Select(i => i.Alt).FirstOrDefault(),
             p.Category!.Slug,
             p.Artisan != null ? p.Artisan.Name : null));
+
+    private DateTime Now => clock.GetUtcNow().UtcDateTime;
 
     private static string EscapeLike(string value) =>
         value.Replace("\\", "\\\\").Replace("%", "\\%").Replace("_", "\\_");

@@ -2,31 +2,33 @@ using System.Security.Claims;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.RateLimiting;
+using Shop.Api.Carts;
 using Shop.Application.Auth;
+using Shop.Application.Carts;
 using Shop.Application.Common;
 
 namespace Shop.Api.Auth;
 
 [ApiController]
 [Route("api/auth")]
-public sealed class AuthController(AuthService auth) : ControllerBase
+public sealed class AuthController(AuthService auth, CartService carts) : ControllerBase
 {
     public const string RefreshCookie = "kinbo_refresh";
 
     [HttpPost("register")]
     [EnableRateLimiting(AuthSetup.RegisterPolicy)]
     public async Task<AuthResponse> Register(RegisterRequest request, CancellationToken ct) =>
-        WithCookie(await auth.RegisterAsync(request, ct));
+        await SignedInAsync(await auth.RegisterAsync(request, ct), ct);
 
     [HttpPost("login")]
     [EnableRateLimiting(AuthSetup.LoginPolicy)]
     public async Task<AuthResponse> Login(LoginRequest request, CancellationToken ct) =>
-        WithCookie(await auth.LoginAsync(request, ct));
+        await SignedInAsync(await auth.LoginAsync(request, ct), ct);
 
     [HttpPost("demo")]
     [EnableRateLimiting(AuthSetup.LoginPolicy)]
     public async Task<AuthResponse> Demo(DemoLoginRequest request, CancellationToken ct) =>
-        WithCookie(await auth.DemoLoginAsync(request, ct));
+        await SignedInAsync(await auth.DemoLoginAsync(request, ct), ct);
 
     [HttpPost("refresh")]
     public async Task<AuthResponse> Refresh(CancellationToken ct)
@@ -55,6 +57,17 @@ public sealed class AuthController(AuthService auth) : ControllerBase
     [HttpGet("me")]
     public Task<UserDto> Me(CancellationToken ct) =>
         auth.GetUserAsync(Guid.Parse(User.FindFirstValue("sub")!), ct);
+
+    /// <summary>Moves the anonymous cart into the account, so what the shopper picked before signing in stays.</summary>
+    private async Task<AuthResponse> SignedInAsync(AuthResult result, CancellationToken ct)
+    {
+        if (CartOwnerResolver.AnonymousId(HttpContext) is { } anonymousId)
+        {
+            await carts.MergeAsync(anonymousId, result.Response.User.Id, ct);
+            CartOwnerResolver.Clear(HttpContext);
+        }
+        return WithCookie(result);
+    }
 
     private AuthResponse WithCookie(AuthResult result)
     {

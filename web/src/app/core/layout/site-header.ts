@@ -4,6 +4,7 @@ import { NonNullableFormBuilder, ReactiveFormsModule } from '@angular/forms';
 import { NavigationEnd, Router, RouterLink, RouterLinkActive } from '@angular/router';
 import { filter } from 'rxjs';
 import { AuthService } from '../auth/auth.service';
+import { CartStore } from '../cart/cart.store';
 import { ToastService } from '../../shared/toast/toast.service';
 
 @Component({
@@ -15,6 +16,7 @@ import { ToastService } from '../../shared/toast/toast.service';
 })
 export class SiteHeader {
   protected readonly auth = inject(AuthService);
+  protected readonly cart = inject(CartStore);
   private readonly router = inject(Router);
   private readonly toasts = inject(ToastService);
 

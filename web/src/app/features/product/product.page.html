@@ -24,12 +24,46 @@
         <p class="availability">
           @if (p.availableQuantity === 0) {
             {{ p.isUnique ? 'This piece has found its home.' : 'Out of stock for now.' }}
+          } @else if (p.isUnique && p.reservedUntil && !cart.holds(p.id)) {
+            <strong>One of a kind.</strong> Reserved right now.
           } @else if (p.isUnique) {
             <strong>One of a kind.</strong> Only 1 available.
           } @else {
             In stock, ready to ship.
           }
         </p>
+
+        <div class="buy" id="buy-box" tabindex="-1">
+          @if (p.availableQuantity > 0) {
+            @if (p.isUnique && cart.holds(p.id)) {
+              <p class="buy__held">
+                In your cart ·
+                <app-hold-countdown
+                  [until]="cart.heldUntil(p.id)!"
+                  (expired)="cart.load(); product.reload()"
+                />
+              </p>
+              <a class="btn btn--ghost btn--block" routerLink="/cart">View cart</a>
+            } @else if (p.isUnique && p.reservedUntil) {
+              <p class="buy__reserved" role="status">
+                Another shopper is holding this piece. Holds last up to 15 minutes, so it may be
+                back soon.
+              </p>
+            } @else {
+              <button
+                class="btn btn--primary btn--block"
+                type="button"
+                [attr.aria-disabled]="cart.busy()"
+                (click)="addToCart(p.id)"
+              >
+                Add to cart · {{ p.price | taka }}
+              </button>
+              @if (p.isUnique) {
+                <p class="buy__note muted">We'll hold it for you for 15 minutes.</p>
+              }
+            }
+          }
+        </div>
 
         <p class="product__description">{{ p.description }}</p>
 
