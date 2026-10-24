@@ -25,6 +25,19 @@ public sealed class ApiFactory : WebApplicationFactory<Program>, IAsyncLifetime
         builder.UseSetting("ConnectionStrings:Default", _db.GetConnectionString());
         builder.UseSetting("Seed:AdminPassword", AdminPassword);
         builder.UseSetting("Seed:DemoPassword", DemoPassword);
+        builder.UseSetting("Auth:SigningKey", "test-signing-key-that-is-at-least-32-bytes-long");
+    }
+
+    /// <summary>
+    /// An HTTPS client (so Secure cookies round-trip) with its own fake client IP, so per-IP rate limits
+    /// in one test never affect another.
+    /// </summary>
+    public HttpClient CreateApiClient()
+    {
+        var client = CreateClient(new WebApplicationFactoryClientOptions { BaseAddress = new Uri("https://localhost") });
+        var ip = $"10.{Random.Shared.Next(256)}.{Random.Shared.Next(256)}.{Random.Shared.Next(1, 255)}";
+        client.DefaultRequestHeaders.Add("X-Forwarded-For", ip);
+        return client;
     }
 
     /// <summary>A DbContext scoped to the given store (default: the seeded one), for arranging and asserting.</summary>

@@ -5,5 +5,8 @@
   "Seed": {
     "AdminPassword": "<choose a local admin password>",
     "DemoPassword": "<choose a local demo password>"
+  },
+  "Auth": {
+    "SigningKey": "<at least 32 random characters, e.g. openssl rand -base64 48>"
   }
 }

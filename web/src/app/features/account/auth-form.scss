@@ -1,0 +1,26 @@
+// Layout only; colors, type and form controls come from the global styles and tokens.
+.auth {
+  max-width: 26rem;
+  margin-inline: auto;
+  padding-block: var(--space-8, 3rem);
+  padding-inline: var(--space-4, 1rem);
+}
+
+.auth__lead {
+  margin-block-end: var(--space-6, 2rem);
+}
+
+form {
+  display: grid;
+  gap: var(--space-4, 1rem);
+}
+
+.auth__demo {
+  display: grid;
+  gap: var(--space-2, 0.5rem);
+  margin-block-start: var(--space-8, 3rem);
+}
+
+.auth__switch {
+  margin-block-start: var(--space-6, 2rem);
+}

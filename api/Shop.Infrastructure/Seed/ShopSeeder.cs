@@ -1,3 +1,4 @@
+using System.Security.Cryptography;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -25,7 +26,9 @@ public sealed class ShopSeeder(
 
         var o = options.Value;
         await SeedUserAsync(o.AdminEmail, o.AdminPassword, "Kinbo Admin", UserRole.Admin, ct);
-        await SeedUserAsync(o.DemoEmail, o.DemoPassword, "Demo Shopper", UserRole.Customer, ct);
+        // Demo accounts are signed into via /api/auth/demo, so a random password is fine when none is configured.
+        await SeedUserAsync(o.DemoEmail, OrRandom(o.DemoPassword), "Demo Shopper", UserRole.Customer, ct);
+        await SeedUserAsync(o.DemoAdminEmail, OrRandom(o.DemoAdminPassword), "Demo Admin", UserRole.Admin, ct);
     }
 
     private async Task SeedCatalogAsync(string slug, CancellationToken ct)
@@ -149,6 +152,9 @@ public sealed class ShopSeeder(
         db.Users.Add(user);
         await db.SaveChangesAsync(ct);
     }
+
+    private static string OrRandom(string password) =>
+        string.IsNullOrWhiteSpace(password) ? Convert.ToBase64String(RandomNumberGenerator.GetBytes(24)) : password;
 
     // Royalty-free placeholders (picsum.photos serves Unsplash-licensed photos) until real product photos exist.
     private static string Placeholder(string seed, int width, int height) =>
