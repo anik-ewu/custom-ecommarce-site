@@ -2,7 +2,7 @@ namespace Shop.Application.Orders;
 
 public sealed class ShopOptions
 {
-    public string Name { get; set; } = "Kinbo";
+    public string Name { get; set; } = "Nokshi Kathar Math";
     public decimal ShippingFee { get; set; } = 120;
     public decimal FreeShippingThreshold { get; set; } = 3000;
 

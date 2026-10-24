@@ -129,7 +129,8 @@ export class ArtisanPage {
   constructor() {
     const title = inject(Title);
     effect(() => {
-      if (this.detail.hasValue()) title.setTitle(`${this.detail.value().artisan.name} · Kinbo`);
+      if (this.detail.hasValue())
+        title.setTitle(`${this.detail.value().artisan.name} · Nokshi Kathar Math`);
     });
   }
 }

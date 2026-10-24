@@ -8,7 +8,7 @@ import { RouterLink } from '@angular/router';
     <footer class="footer">
       <div class="container footer__inner">
         <div>
-          <p class="footer__name">Kinbo</p>
+          <p class="footer__name">Nokshi Kathar Math</p>
           <p class="muted">Nakshi kantha and jute, made by hand in Bangladesh.</p>
         </div>
         <nav aria-label="Footer">
@@ -19,7 +19,9 @@ import { RouterLink } from '@angular/router';
             <li><a class="stitch-link" routerLink="/terms">Terms and conditions</a></li>
           </ul>
         </nav>
-        <p class="muted footer__small">Cash on delivery across Bangladesh · © {{ year }} Kinbo</p>
+        <p class="muted footer__small">
+          Cash on delivery across Bangladesh · © {{ year }} Nokshi Kathar Math
+        </p>
       </div>
     </footer>
   `,

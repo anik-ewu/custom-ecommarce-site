@@ -2,7 +2,7 @@
 
 Record at 1440×900 in the browser, with a phone-size window ready for the mobile part.
 
-1. **Home (15 s).** "Kinbo sells handmade nakshi kantha and jute from Bangladesh." Scroll slowly: hero, one-of-a-kind
+1. **Home (15 s).** "Nokshi Kathar Math sells handmade nakshi kantha and jute from Bangladesh." Scroll slowly: hero, one-of-a-kind
    pieces, category tiles, artisans, trust row. Point out the running-stitch dividers.
 2. **Catalog (20 s).** Shop → filter by Kantha Cushions → sort by price → search "lotus". Mention skeleton loading
    and that filters are shareable URLs.

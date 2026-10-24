@@ -25,7 +25,7 @@ public sealed class ShopSeeder(
             await SeedCatalogAsync(slug, ct);
 
         var o = options.Value;
-        await SeedUserAsync(o.AdminEmail, o.AdminPassword, "Kinbo Admin", UserRole.Admin, ct);
+        await SeedUserAsync(o.AdminEmail, o.AdminPassword, "Nokshi Kathar Math Admin", UserRole.Admin, ct);
         // Demo accounts are signed into via /api/auth/demo, so a random password is fine when none is configured.
         await SeedUserAsync(o.DemoEmail, OrRandom(o.DemoPassword), "Demo Shopper", UserRole.Customer, ct);
         await SeedUserAsync(o.DemoAdminEmail, OrRandom(o.DemoAdminPassword), "Demo Admin", UserRole.Admin, ct);
@@ -34,7 +34,7 @@ public sealed class ShopSeeder(
     private async Task SeedCatalogAsync(string slug, CancellationToken ct)
     {
         var now = clock.GetUtcNow().UtcDateTime;
-        var store = new Store { Id = Guid.NewGuid(), Name = config["Shop:Name"] ?? "Kinbo", Slug = slug };
+        var store = new Store { Id = Guid.NewGuid(), Name = config["Shop:Name"] ?? "Nokshi Kathar Math", Slug = slug };
         db.Stores.Add(store);
 
         Category Cat(string name, string catSlug, int order) =>

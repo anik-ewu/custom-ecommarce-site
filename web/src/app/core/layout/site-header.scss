@@ -1,9 +1,15 @@
 :host {
   // Sticky on the host: the <header> alone sits in a wrapper of its own height, so it couldn't stick.
+  --demo-bar-height: 2.25rem;
   position: sticky;
   top: 0;
   z-index: 20;
   display: block;
+}
+
+// The demo bar scrolls away; only the header itself stays pinned.
+:host:has(.demo-bar) {
+  top: calc(-1 * var(--demo-bar-height));
 }
 
 .header {
@@ -32,13 +38,65 @@
   min-width: var(--tap-target);
 }
 
+.demo-bar {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-2);
+  height: var(--demo-bar-height);
+  margin: 0;
+  padding-inline: var(--gutter);
+  background: var(--color-ink);
+  color: var(--color-bg);
+  font-size: var(--text-xs);
+  text-align: center;
+
+  a {
+    color: inherit;
+    font-weight: var(--weight-medium);
+    text-decoration-color: currentColor;
+  }
+}
+
+.demo-bar__lead {
+  display: none;
+
+  @media (min-width: 40rem) {
+    display: inline;
+  }
+}
+
 .header__logo {
   grid-area: logo;
   justify-self: start;
+  gap: var(--space-2);
   font-family: var(--font-display);
-  font-size: var(--text-xl);
+  font-size: var(--text-lg);
+  line-height: 1;
   text-decoration: none;
-  letter-spacing: 0.02em;
+  white-space: nowrap;
+
+  @media (min-width: 48rem) {
+    font-size: var(--text-xl);
+  }
+}
+
+.header__mark {
+  flex: none;
+  width: 1.75rem;
+  height: 1.75rem;
+
+  circle {
+    fill: none;
+    stroke: var(--color-accent);
+    stroke-width: 1.6;
+    stroke-dasharray: 3 2.4;
+    stroke-linecap: round;
+  }
+
+  path {
+    fill: var(--color-accent);
+  }
 }
 
 .header__nav {

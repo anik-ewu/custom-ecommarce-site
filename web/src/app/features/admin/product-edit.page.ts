@@ -86,7 +86,7 @@ export class ProductEditPage {
     });
     // The component is reused when navigating from an edit page to /new: start from a blank form then.
     effect(() => {
-      title.setTitle(`${this.isNew() ? 'New product' : 'Edit product'} · Kinbo admin`);
+      title.setTitle(`${this.isNew() ? 'New product' : 'Edit product'} · Nokshi Kathar Math admin`);
       if (this.isNew()) {
         this.version = null;
         this.form.reset();

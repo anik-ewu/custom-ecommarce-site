@@ -1,6 +1,18 @@
+@if (!auth.user()) {
+  <p class="demo-bar">
+    <span class="demo-bar__lead">Portfolio demo: no sign-up needed.</span>
+    <a routerLink="/login">Explore as a shopper or admin</a>
+  </p>
+}
 <header class="header">
   <div class="header__inner container">
-    <a class="header__logo" routerLink="/" aria-label="Kinbo home">Kinbo</a>
+    <a class="header__logo" routerLink="/" aria-label="Nokshi Kathar Math home">
+      <svg class="header__mark" viewBox="0 0 32 32" aria-hidden="true">
+        <circle cx="16" cy="16" r="14" />
+        <path d="M16 23c-4-3-5-7-3.5-11C14 15 15 17 16 19c1-2 2-4 3.5-7C21 16 20 20 16 23Z" />
+      </svg>
+      <span>Nokshi Kathar Math</span>
+    </a>
 
     <nav class="header__nav" aria-label="Main">
       <a
@@ -11,6 +23,7 @@
         [attr.aria-current]="shop.isActive ? 'page' : null"
         >Shop</a
       >
+      <a class="stitch-link" routerLink="/shop" [queryParams]="{ type: 'unique' }">One of a kind</a>
     </nav>
 
     <div class="header__actions">

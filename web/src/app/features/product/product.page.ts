@@ -37,7 +37,8 @@ export class ProductPage {
     const title = inject(Title);
     effect(() => {
       // value() throws while the resource is in an error state, so check hasValue() first.
-      if (this.product.hasValue()) title.setTitle(`${this.product.value().name} · Kinbo`);
+      if (this.product.hasValue())
+        title.setTitle(`${this.product.value().name} · Nokshi Kathar Math`);
     });
   }
 }

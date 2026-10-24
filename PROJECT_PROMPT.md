@@ -11,7 +11,7 @@ A real, single-shop e-commerce site selling **handmade Bangladeshi goods**:
 - **Hero range:** nakshi kantha small items (cushion covers, table runners, wall hangings). Each piece is **one of a kind** (stock = 1).
 - **Standard range:** jute goods (bags, baskets, mats) sold by **quantity**.
 
-Working shop name: **Kinbo** (keep it in one config value, `Shop:Name`, so renaming is free).
+Working shop name: **Nokshi Kathar Math** (keep it in one config value, `Shop:Name`, so renaming is free).
 
 The site must feel **warm, crafted and premium**: easy to navigate, simple, elegant, and pleasant to stay on. It is also a portfolio piece, so code quality, tests and the README matter.
 

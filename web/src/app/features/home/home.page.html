@@ -45,8 +45,6 @@
   }
 </section>
 
-<hr class="stitch-divider container" />
-
 <section class="container section" aria-labelledby="categories-title">
   <h2 id="categories-title">Shop by category</h2>
   @if (categories.hasValue()) {
@@ -57,7 +55,7 @@
             @if (c.imageUrl) {
               <img [src]="c.imageUrl" alt="" width="900" height="1125" loading="lazy" />
             }
-            <span class="tile__name">{{ c.name }}</span>
+            <span class="tile__name">{{ c.name }} <span aria-hidden="true">→</span></span>
           </a>
         </li>
       }
@@ -68,6 +66,39 @@
       <button class="btn btn--ghost" type="button" (click)="categories.reload()">Try again</button>
     </p>
   }
+</section>
+
+<section class="container story" aria-labelledby="story-title">
+  <img
+    class="story__image"
+    src="/placeholders/tree-of-life-hanging-detail.svg"
+    alt=""
+    width="900"
+    height="1125"
+    loading="lazy"
+  />
+  <div class="story__text">
+    <p class="eyebrow">The craft</p>
+    <h2 id="story-title">Old saris, new stories.</h2>
+    <p class="muted">
+      Nakshi kantha is soft layered cotton held together by thousands of tiny running stitches. A
+      cushion cover takes about two weeks; a wall hanging can take two months.
+    </p>
+    <dl class="stats">
+      <div>
+        <dt>2–8 weeks</dt>
+        <dd>to stitch one piece</dd>
+      </div>
+      <div>
+        <dt>1 of 1</dt>
+        <dd>every kantha is unique</dd>
+      </div>
+      <div>
+        <dt>0</dt>
+        <dd>machines involved</dd>
+      </div>
+    </dl>
+  </div>
 </section>
 
 <section class="artisans" aria-labelledby="artisans-title">
@@ -97,17 +128,29 @@
   </div>
 </section>
 
-<section class="container trust" aria-label="Why shop with Kinbo">
+<section class="container trust" aria-label="Why shop with Nokshi Kathar Math">
   <ul>
     <li>
+      <svg viewBox="0 0 24 24" aria-hidden="true">
+        <path d="M4 20 18 6m0 0 2-2m-2 2-3-1m3 1 1 3M7 17c2 1 4 0 5-2" />
+      </svg>
       <strong>Handmade</strong>
       <span class="muted">Stitched and woven by hand, never by machine.</span>
     </li>
     <li>
+      <svg viewBox="0 0 24 24" aria-hidden="true">
+        <rect x="3" y="6" width="18" height="12" rx="2" />
+        <circle cx="12" cy="12" r="2.5" />
+      </svg>
       <strong>Cash on delivery</strong>
       <span class="muted">Pay when your piece arrives at your door.</span>
     </li>
     <li>
+      <svg viewBox="0 0 24 24" aria-hidden="true">
+        <path d="M3 7h11v9H3zM14 10h4l3 3v3h-7" />
+        <circle cx="7" cy="17.5" r="1.5" />
+        <circle cx="17" cy="17.5" r="1.5" />
+      </svg>
       <strong>3–5 day delivery</strong>
       <span class="muted">Anywhere in Bangladesh, carefully wrapped.</span>
     </li>

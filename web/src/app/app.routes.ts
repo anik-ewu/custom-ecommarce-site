@@ -4,55 +4,55 @@ import { adminGuard, authGuard } from './core/auth/auth.guards';
 export const routes: Routes = [
   {
     path: '',
-    title: 'Kinbo · Handmade nakshi kantha and jute',
+    title: 'Nokshi Kathar Math · Handmade nakshi kantha and jute',
     loadComponent: () => import('./features/home/home.page').then((m) => m.HomePage),
   },
   {
     path: 'shop',
-    title: 'Shop · Kinbo',
+    title: 'Shop · Nokshi Kathar Math',
     loadComponent: () => import('./features/catalog/catalog.page').then((m) => m.CatalogPage),
   },
   {
     path: 'product/:slug',
-    title: 'Kinbo',
+    title: 'Nokshi Kathar Math',
     loadComponent: () => import('./features/product/product.page').then((m) => m.ProductPage),
   },
   {
     path: 'artisans/:id',
-    title: 'Artisan · Kinbo',
+    title: 'Artisan · Nokshi Kathar Math',
     loadComponent: () => import('./features/artisans/artisan.page').then((m) => m.ArtisanPage),
   },
   {
     path: 'cart',
-    title: 'Your cart · Kinbo',
+    title: 'Your cart · Nokshi Kathar Math',
     loadComponent: () => import('./features/cart/cart.page').then((m) => m.CartPage),
   },
   {
     path: 'checkout',
-    title: 'Checkout · Kinbo',
+    title: 'Checkout · Nokshi Kathar Math',
     canActivate: [authGuard],
     loadComponent: () => import('./features/checkout/checkout.page').then((m) => m.CheckoutPage),
   },
   {
     path: 'orders/:number',
-    title: 'Your order · Kinbo',
+    title: 'Your order · Nokshi Kathar Math',
     canActivate: [authGuard],
     loadComponent: () => import('./features/account/order.page').then((m) => m.OrderPage),
   },
   {
     path: 'account',
-    title: 'Your account · Kinbo',
+    title: 'Your account · Nokshi Kathar Math',
     canActivate: [authGuard],
     loadComponent: () => import('./features/account/account.page').then((m) => m.AccountPage),
   },
   {
     path: 'login',
-    title: 'Sign in · Kinbo',
+    title: 'Sign in · Nokshi Kathar Math',
     loadComponent: () => import('./features/account/login.page').then((m) => m.LoginPage),
   },
   {
     path: 'register',
-    title: 'Create account · Kinbo',
+    title: 'Create account · Nokshi Kathar Math',
     loadComponent: () => import('./features/account/register.page').then((m) => m.RegisterPage),
   },
   {
@@ -62,12 +62,12 @@ export const routes: Routes = [
   },
   {
     path: 'privacy',
-    title: 'Privacy policy · Kinbo',
+    title: 'Privacy policy · Nokshi Kathar Math',
     loadComponent: () => import('./features/legal/privacy.page').then((m) => m.PrivacyPage),
   },
   {
     path: 'terms',
-    title: 'Terms and conditions · Kinbo',
+    title: 'Terms and conditions · Nokshi Kathar Math',
     loadComponent: () => import('./features/legal/terms.page').then((m) => m.TermsPage),
   },
   { path: '**', redirectTo: '' },

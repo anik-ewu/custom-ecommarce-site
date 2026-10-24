@@ -1,4 +1,4 @@
-# Kinbo: handmade Bangladeshi goods
+# Nokshi Kathar Math: handmade Bangladeshi goods
 
 A real single-shop e-commerce site for one-of-a-kind nakshi kantha and everyday jute goods, built as a
 portfolio piece: **.NET 10 Web API + Angular 22 + PostgreSQL**, multi-tenant-ready, with the concurrency,
@@ -82,7 +82,7 @@ Settings are standard ASP.NET Core configuration: `appsettings.json` holds safe 
 | `Auth__SigningKey` | yes | HS256 key for access tokens, at least 32 bytes (`openssl rand -base64 48`) |
 | `Seed__AdminPassword` | for an admin login | Password of `admin@kinbo.test`. Without it the admin isn't created; demo accounts still are |
 | `Images__CloudinaryCloudName`, `Images__CloudinaryApiKey`, `Images__CloudinaryApiSecret` | for photo uploads in production | Signed Cloudinary uploads. Without them, development stores uploads on local disk and production refuses uploads (`IMAGE_STORAGE_NOT_CONFIGURED`), since Render's disk is wiped on deploy |
-| `Shop__Name`, `Shop__ShippingFee`, `Shop__FreeShippingThreshold` | no | Defaults: Kinbo, 120, 3000 |
+| `Shop__Name`, `Shop__ShippingFee`, `Shop__FreeShippingThreshold` | no | Defaults: Nokshi Kathar Math, 120, 3000 |
 | `Database__MigrateOnStartup`, `Seed__Enabled` | no | Both default to `true` |
 | `RateLimits__LoginPerMinute`, `RateLimits__RegisterPerMinute` | no | Defaults 5 and 3 per IP |
 

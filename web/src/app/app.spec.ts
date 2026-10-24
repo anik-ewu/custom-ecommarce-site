@@ -16,7 +16,7 @@ describe('App', () => {
     const fixture = TestBed.createComponent(App);
     await fixture.whenStable();
     const el = fixture.nativeElement as HTMLElement;
-    expect(el.querySelector('.header__logo')?.textContent).toContain('Kinbo');
+    expect(el.querySelector('.header__logo')?.textContent).toContain('Nokshi Kathar Math');
     expect(el.querySelector('a.skip-link')?.getAttribute('href')).toBe('#main');
   });
 });
