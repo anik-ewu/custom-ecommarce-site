@@ -21,3 +21,10 @@ jobs:
       - run: npm ci --prefix web
       # Docker is preinstalled on ubuntu runners, so Testcontainers works as-is.
       - run: ./scripts/check.sh
+
+  docker:
+    # The image Render deploys must keep building; nothing is pushed.
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - run: docker build -f api/Dockerfile -t kinbo-api:ci .

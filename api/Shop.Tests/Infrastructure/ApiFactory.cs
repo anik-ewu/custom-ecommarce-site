@@ -8,7 +8,7 @@ using Testcontainers.PostgreSql;
 namespace Shop.Tests.Infrastructure;
 
 /// <summary>Runs the real API against a throwaway Postgres container, migrated and seeded on startup.</summary>
-public sealed class ApiFactory : WebApplicationFactory<Program>, IAsyncLifetime
+public class ApiFactory : WebApplicationFactory<Program>, IAsyncLifetime
 {
     public const string AdminPassword = "Admin-test-pass-1";
     public const string DemoPassword = "Demo-test-pass-1";

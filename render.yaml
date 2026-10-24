@@ -1,0 +1,24 @@
+# Render Blueprint: connect the repo in Render → New → Blueprint, then fill in the "sync: false" values.
+services:
+  - type: web
+    name: kinbo-api
+    runtime: docker
+    dockerfilePath: ./api/Dockerfile
+    dockerContext: .
+    plan: free
+    region: singapore
+    healthCheckPath: /api/health
+    autoDeploy: true
+    envVars:
+      - key: ConnectionStrings__Default
+        sync: false # Neon connection string (Npgsql format, with SSL Mode=Require)
+      - key: Auth__SigningKey
+        generateValue: true
+      - key: Seed__AdminPassword
+        sync: false
+      - key: Images__CloudinaryCloudName
+        sync: false
+      - key: Images__CloudinaryApiKey
+        sync: false
+      - key: Images__CloudinaryApiSecret
+        sync: false

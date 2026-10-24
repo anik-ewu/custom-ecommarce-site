@@ -38,7 +38,9 @@ if (app.Environment.IsDevelopment())
 }
 
 // Local image uploads (development without Cloudinary). Served before tenancy/auth: they are public images.
-if (app.Services.GetService<LocalImageStorage>() is { } localImages)
+// Never in production: uploads are refused there without Cloudinary, and the container's app folder isn't
+// writable by the app user.
+if (!app.Environment.IsProduction() && app.Services.GetService<LocalImageStorage>() is { } localImages)
 {
     Directory.CreateDirectory(localImages.Folder);
     app.UseStaticFiles(new StaticFileOptions

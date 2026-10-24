@@ -211,7 +211,7 @@ Tick the box **in the same commit** that finishes the step. A new session starts
 - [ ] 9. `feat(payments)`: Stripe test mode + idempotent webhook
 - [x] 10. `feat(account)`: order history
 - [x] 11. `feat(admin)`: dashboard, products, orders, image upload
-- [ ] 12. `chore(deploy)`: Dockerfile, Render, Vercel proxy, Neon, README, demo video script
+- [x] 12. `chore(deploy)`: Dockerfile, Render, Vercel proxy, Neon, README, demo video script
 
 Each step must end with: `./scripts/check.sh` green, the `reviewer` agent passing, and the feature usable in the browser. UI steps also need the `ui-reviewer` agent passing.
 

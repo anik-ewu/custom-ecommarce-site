@@ -1,4 +1,5 @@
-# Local dev database. Values come from .env (see .env.example).
+# Local dev: Postgres for `./scripts/dev.sh`. Values come from .env (see .env.example).
+# `docker compose --profile full up` also runs the API from its production Dockerfile on http://localhost:8080.
 services:
   db:
     image: postgres:17
@@ -14,6 +15,23 @@ services:
       test: ["CMD-SHELL", "pg_isready -U $${POSTGRES_USER:-shop}"]
       interval: 5s
       retries: 10
+
+  api:
+    profiles: [full]
+    build:
+      context: .
+      dockerfile: api/Dockerfile
+    depends_on:
+      db:
+        condition: service_healthy
+    environment:
+      ConnectionStrings__Default: Host=db;Port=5432;Database=${POSTGRES_DB:-shop};Username=${POSTGRES_USER:-shop};Password=${POSTGRES_PASSWORD}
+      Auth__SigningKey: ${AUTH_SIGNING_KEY:?set AUTH_SIGNING_KEY in .env for the full profile}
+      Seed__AdminPassword: ${SEED_ADMIN_PASSWORD:-}
+      # Without Cloudinary, production mode refuses uploads; run as Development to store them in the container.
+      ASPNETCORE_ENVIRONMENT: ${API_ENVIRONMENT:-Production}
+    ports:
+      - "8080:8080"
 
 volumes:
   pgdata:
