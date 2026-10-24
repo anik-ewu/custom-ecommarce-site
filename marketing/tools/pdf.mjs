@@ -1,4 +1,4 @@
-// Renders the A4 case-study PDF for the Fiverr gig gallery (Fiverr allows PDFs up to 10 MB).
+// Renders the A4 case-study PDF for the Fiverr gig gallery (Fiverr allows PDFs up to 2 MB).
 // Usage: node pdf.mjs <imagesDir> <out.pdf> <scratch dir>
 // imagesDir holds JPEG copies of the screenshots (full-size PNGs make the PDF too big), see marketing/README.md.
 import { writeFileSync } from 'node:fs';

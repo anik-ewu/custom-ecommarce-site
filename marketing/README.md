@@ -14,7 +14,7 @@ Images and a promo video of the Nokshi Kathar Math demo shop, for an Upwork proj
 | `thumbnails/upwork-project-3-admin.png` | 1600×1200 | Upwork project gallery |
 | `video/ecommerce-promo-1080p.mp4` | 1920×1080, 54 s, 15 MB, H.264 | Fiverr gig video (limit 75 s / 50 MB), Upwork project video |
 | `video/ecommerce-promo-fiverr-1080p.mp4` | 1920×1080, 59 s, 15 MB, H.264 | Fiverr gig video: adds a "how we work" scene and ends on "Message me on Fiverr" |
-| `pdf/ecommerce-case-study.pdf` | A4, 6 pages, 2.4 MB | Fiverr gig PDF (limit 10 MB), Upwork portfolio file |
+| `pdf/ecommerce-case-study.pdf` | A4, 6 pages, 1.8 MB | Fiverr gig PDF (limit 2 MB), Upwork portfolio file |
 | `thumbnails/video-thumbnail.png` | 1280×720 | Cover frame for the video (YouTube, LinkedIn, Upwork) |
 | `screenshots/*.png` | desktop 2880×1800, mobile 1170×2532 | Extra gallery images, portfolio case study |
 
@@ -55,10 +55,10 @@ Fiverr video cut (same scenes plus the process and Fiverr outro): pass `fiverr` 
 bash marketing/tools/video.sh /tmp/scenes marketing/screenshots marketing/video/ecommerce-promo-fiverr-1080p.mp4 /tmp/clips fiverr
 ```
 
-The PDF uses smaller JPEG copies of the screenshots so it stays well under Fiverr's 10 MB limit.
+The PDF uses smaller JPEG copies of the screenshots so it stays under Fiverr's 2 MB limit.
 
 ```bash
-mkdir -p /tmp/jpg && for f in marketing/screenshots/*.png; do sips -Z 1600 -s format jpeg -s formatOptions 82 "$f" --out "/tmp/jpg/$(basename "${f%.png}").jpg"; done
+mkdir -p /tmp/jpg && for f in marketing/screenshots/*.png; do sips -Z 1300 -s format jpeg -s formatOptions 72 "$f" --out "/tmp/jpg/$(basename "${f%.png}").jpg"; done
 ```
 
 ```bash
