@@ -1,0 +1,28 @@
+# OS / editors
+.DS_Store
+.idea/
+.vscode/*
+!.vscode/extensions.json
+*.swp
+
+# Secrets (commit only the .example versions)
+.env
+.env.*
+!.env.example
+appsettings.*.json
+!appsettings.*.json.example
+
+# .NET
+bin/
+obj/
+TestResults/
+*.user
+
+# Angular / Node
+node_modules/
+dist/
+.angular/
+coverage/
+
+# Claude Code local-only settings
+.claude/settings.local.json
