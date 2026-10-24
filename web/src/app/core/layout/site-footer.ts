@@ -37,9 +37,14 @@ import { RouterLink } from '@angular/router';
       font-family: var(--font-display);
       font-size: var(--text-xl);
     }
+    ul a {
+      display: inline-flex;
+      align-items: center;
+      min-height: var(--tap-target);
+    }
     ul {
       display: grid;
-      gap: var(--space-2);
+      gap: 0;
       margin: 0;
       padding: 0;
       list-style: none;

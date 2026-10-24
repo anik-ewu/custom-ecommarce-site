@@ -15,6 +15,12 @@ public sealed class CatalogController(CatalogService catalog) : ControllerBase
     public Task<Paged<ProductCardDto>> Products([FromQuery] ProductQuery query, CancellationToken ct) =>
         catalog.GetProductsAsync(query, ct);
 
+    [HttpGet("artisans")]
+    public Task<IReadOnlyList<ArtisanSummaryDto>> Artisans(CancellationToken ct) => catalog.GetArtisansAsync(ct);
+
+    [HttpGet("artisans/{id:guid}")]
+    public Task<ArtisanDetailDto> Artisan(Guid id, CancellationToken ct) => catalog.GetArtisanAsync(id, ct);
+
     [HttpGet("products/{slug}")]
     public Task<ProductDetailDto> Product(string slug, CancellationToken ct) => catalog.GetProductAsync(slug, ct);
 }

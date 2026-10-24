@@ -27,6 +27,7 @@ The API migrates and seeds on startup (`Database:MigrateOnStartup`, `Seed:Enable
   directly (no repository layer), so Application depends on Infrastructure rather than the other way round.
 - Tenancy: every `IStoreOwned` entity has a `StoreId` query filter. `TenantMiddleware` resolves the store from
   `Shop:StoreSlug` once per request; new rows get the request's `StoreId` in `SaveChangesAsync`.
-- Placeholder images come from picsum.photos (Unsplash-licensed) until real product photos are added.
+- Placeholder images are brand-palette SVGs from `scripts/generate-placeholders.mjs` (in `web/public/placeholders`),
+  so no third-party photos are used. Real photos will go to Cloudinary (URLs only in the DB).
 - Local secrets: `dotnet user-secrets --project api/Shop.Api set Auth:SigningKey "$(openssl rand -base64 48)"`
   (also `ConnectionStrings:Default`, `Seed:AdminPassword`). If port 5432 is taken, set `POSTGRES_PORT` in `.env`.

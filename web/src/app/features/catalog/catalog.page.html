@@ -10,9 +10,9 @@
     <a
       class="chip"
       [routerLink]="[]"
-      [queryParams]="{ category: null, page: null }"
+      [queryParams]="{ category: null, type: null, page: null }"
       queryParamsHandling="merge"
-      [attr.aria-current]="!category() ? 'page' : null"
+      [attr.aria-current]="!category() && !type() ? 'page' : null"
       >All</a
     >
     @for (c of categories.hasValue() ? categories.value() : []; track c.id) {
@@ -70,6 +70,7 @@
         }
       </div>
     } @else {
+      <h2 class="visually-hidden">Pieces</h2>
       <ul class="grid" [attr.aria-busy]="products.isLoading()">
         @for (p of result.items; track p.id) {
           <li><app-product-card [product]="p" /></li>

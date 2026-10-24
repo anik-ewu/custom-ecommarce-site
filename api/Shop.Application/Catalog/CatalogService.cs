@@ -10,8 +10,39 @@ public sealed class CatalogService(ShopDbContext db)
     public async Task<IReadOnlyList<CategoryDto>> GetCategoriesAsync(CancellationToken ct) =>
         await db.Categories
             .OrderBy(c => c.SortOrder).ThenBy(c => c.Name)
-            .Select(c => new CategoryDto(c.Id, c.Name, c.Slug))
+            .Select(c => new CategoryDto(
+                c.Id,
+                c.Name,
+                c.Slug,
+                // Category tiles use the newest active piece's first photo, so no separate category images to manage.
+                db.Products
+                    .Where(p => p.CategoryId == c.Id && p.IsActive)
+                    .OrderByDescending(p => p.CreatedAt).ThenBy(p => p.Name)
+                    .SelectMany(p => p.Images.OrderBy(i => i.SortOrder).Select(i => i.Url).Take(1))
+                    .FirstOrDefault()))
             .ToListAsync(ct);
+
+    public async Task<IReadOnlyList<ArtisanSummaryDto>> GetArtisansAsync(CancellationToken ct) =>
+        await db.Artisans
+            .OrderBy(a => a.Name)
+            .Select(a => new ArtisanSummaryDto(a.Id, a.Name, a.Region, a.Story, a.PhotoUrl))
+            .ToListAsync(ct);
+
+    public async Task<ArtisanDetailDto> GetArtisanAsync(Guid id, CancellationToken ct)
+    {
+        var artisan = await db.Artisans
+            .Where(a => a.Id == id)
+            .Select(a => new ArtisanSummaryDto(a.Id, a.Name, a.Region, a.Story, a.PhotoUrl))
+            .FirstOrDefaultAsync(ct)
+            ?? throw AppException.NotFound("We couldn't find that artisan.");
+
+        var products = await ToCards(db.Products.AsNoTracking()
+                .Where(p => p.ArtisanId == id && p.IsActive)
+                .OrderByDescending(p => p.CreatedAt).ThenBy(p => p.Name))
+            .ToListAsync(ct);
+
+        return new ArtisanDetailDto(artisan, products);
+    }
 
     public async Task<Paged<ProductCardDto>> GetProductsAsync(ProductQuery query, CancellationToken ct)
     {
@@ -29,6 +60,14 @@ public sealed class CatalogService(ShopDbContext db)
                 || EF.Functions.ILike(p.Materials, pattern, "\\"));
         }
 
+        if (query.Type is "unique")
+            products = products.Where(p => p.InventoryType == InventoryType.Unique);
+        else if (query.Type is "standard")
+            products = products.Where(p => p.InventoryType == InventoryType.Standard);
+
+        if (query.InStock)
+            products = products.Where(p => p.StockQuantity > 0);
+
         products = query.Sort switch
         {
             "price-asc" => products.OrderBy(p => p.Price).ThenBy(p => p.Id),
@@ -37,20 +76,7 @@ public sealed class CatalogService(ShopDbContext db)
         };
 
         var total = await products.CountAsync(ct);
-        var items = await products
-            .Skip((query.Page - 1) * query.PageSize)
-            .Take(query.PageSize)
-            .Select(p => new ProductCardDto(
-                p.Id,
-                p.Slug,
-                p.Name,
-                p.Price,
-                p.InventoryType == InventoryType.Unique,
-                p.StockQuantity > 0,
-                p.Images.OrderBy(i => i.SortOrder).Select(i => i.Url).FirstOrDefault(),
-                p.Images.OrderBy(i => i.SortOrder).Select(i => i.Alt).FirstOrDefault(),
-                p.Category!.Slug,
-                p.Artisan != null ? p.Artisan.Name : null))
+        var items = await ToCards(products.Skip((query.Page - 1) * query.PageSize).Take(query.PageSize))
             .ToListAsync(ct);
 
         return new Paged<ProductCardDto>(items, query.Page, query.PageSize, total);
@@ -79,6 +105,19 @@ public sealed class CatalogService(ShopDbContext db)
 
         return product ?? throw AppException.NotFound("We couldn't find that piece.");
     }
+
+    private static IQueryable<ProductCardDto> ToCards(IQueryable<Product> products) =>
+        products.Select(p => new ProductCardDto(
+            p.Id,
+            p.Slug,
+            p.Name,
+            p.Price,
+            p.InventoryType == InventoryType.Unique,
+            p.StockQuantity > 0,
+            p.Images.OrderBy(i => i.SortOrder).Select(i => i.Url).FirstOrDefault(),
+            p.Images.OrderBy(i => i.SortOrder).Select(i => i.Alt).FirstOrDefault(),
+            p.Category!.Slug,
+            p.Artisan != null ? p.Artisan.Name : null));
 
     private static string EscapeLike(string value) =>
         value.Replace("\\", "\\\\").Replace("%", "\\%").Replace("_", "\\_");

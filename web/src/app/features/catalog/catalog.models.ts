@@ -2,6 +2,7 @@ export interface Category {
   id: string;
   name: string;
   slug: string;
+  imageUrl: string | null;
 }
 
 export interface ProductCard {
@@ -49,3 +50,8 @@ export interface ProductDetail {
 }
 
 export type SortOption = 'newest' | 'price-asc' | 'price-desc';
+
+export interface ArtisanDetail {
+  artisan: ArtisanSummary;
+  products: ProductCard[];
+}

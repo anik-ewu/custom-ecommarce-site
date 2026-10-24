@@ -1,0 +1,115 @@
+<section class="hero" aria-labelledby="hero-title">
+  <img
+    class="hero__image"
+    [src]="heroImage"
+    alt=""
+    width="1800"
+    height="1100"
+    fetchpriority="high"
+  />
+  <div class="hero__content container">
+    <h1 id="hero-title">Stitched slowly, by hand, in Bangladesh.</h1>
+    <p>
+      One-of-a-kind nakshi kantha and everyday jute, made by the women and men whose names you'll
+      know.
+    </p>
+    <a class="btn btn--primary" routerLink="/shop">Explore the collection</a>
+  </div>
+</section>
+
+<section class="container section" aria-labelledby="featured-title">
+  <div class="section__head">
+    <h2 id="featured-title">One of a kind</h2>
+    <a class="stitch-link" routerLink="/shop" [queryParams]="{ type: 'unique' }"
+      >See every one-of-a-kind piece</a
+    >
+  </div>
+  <p class="muted section__lead">Each piece exists once. When it's gone, it's gone.</p>
+  @if (featured.hasValue()) {
+    <ul class="grid">
+      @for (p of featured.value().items; track p.id) {
+        <li><app-product-card [product]="p" /></li>
+      }
+    </ul>
+  } @else if (featured.error()) {
+    <p class="section-error">
+      These pieces didn't load.
+      <button class="btn btn--ghost" type="button" (click)="featured.reload()">Try again</button>
+    </p>
+  } @else if (featured.isLoading()) {
+    <ul class="grid" aria-busy="true" aria-label="Loading featured pieces">
+      @for (i of [1, 2, 3, 4]; track i) {
+        <li class="skeleton"></li>
+      }
+    </ul>
+  }
+</section>
+
+<hr class="stitch-divider container" />
+
+<section class="container section" aria-labelledby="categories-title">
+  <h2 id="categories-title">Shop by category</h2>
+  @if (categories.hasValue()) {
+    <ul class="tiles">
+      @for (c of categories.value(); track c.id) {
+        <li>
+          <a class="tile" routerLink="/shop" [queryParams]="{ category: c.slug }">
+            @if (c.imageUrl) {
+              <img [src]="c.imageUrl" alt="" width="900" height="1125" loading="lazy" />
+            }
+            <span class="tile__name">{{ c.name }}</span>
+          </a>
+        </li>
+      }
+    </ul>
+  } @else if (categories.error()) {
+    <p class="section-error">
+      Categories didn't load.
+      <button class="btn btn--ghost" type="button" (click)="categories.reload()">Try again</button>
+    </p>
+  }
+</section>
+
+<section class="artisans" aria-labelledby="artisans-title">
+  <div class="container section">
+    <h2 id="artisans-title">Meet the artisans</h2>
+    <p class="muted section__lead">Every piece carries the name of the hands that made it.</p>
+    @if (artisans.hasValue()) {
+      <ul class="artisans__list">
+        @for (a of artisans.value(); track a.id) {
+          <li>
+            <a class="artisan" [routerLink]="['/artisans', a.id]">
+              @if (a.photoUrl) {
+                <img [src]="a.photoUrl" alt="" width="600" height="600" loading="lazy" />
+              }
+              <span class="artisan__name">{{ a.name }}</span>
+              <span class="muted">{{ a.region }}</span>
+            </a>
+          </li>
+        }
+      </ul>
+    } @else if (artisans.error()) {
+      <p class="section-error">
+        The artisans didn't load.
+        <button class="btn btn--ghost" type="button" (click)="artisans.reload()">Try again</button>
+      </p>
+    }
+  </div>
+</section>
+
+<section class="container trust" aria-label="Why shop with Kinbo">
+  <ul>
+    <li>
+      <strong>Handmade</strong>
+      <span class="muted">Stitched and woven by hand, never by machine.</span>
+    </li>
+    <li>
+      <strong>Cash on delivery</strong>
+      <span class="muted">Pay when your piece arrives at your door.</span>
+    </li>
+    <li>
+      <strong>3–5 day delivery</strong>
+      <span class="muted">Anywhere in Bangladesh, carefully wrapped.</span>
+    </li>
+  </ul>
+</section>

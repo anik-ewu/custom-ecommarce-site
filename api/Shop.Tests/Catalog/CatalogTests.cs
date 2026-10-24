@@ -127,3 +127,46 @@ public sealed class CatalogTests(ApiFactory factory)
         return doc.RootElement.GetProperty("code").GetString();
     }
 }
+
+[Collection(ApiCollection.Name)]
+public sealed class ArtisanAndFeaturedTests(ApiFactory factory)
+{
+    [Fact]
+    public async Task Artisans_list_and_detail_include_their_pieces()
+    {
+        var client = factory.CreateApiClient();
+        var artisans = await client.GetFromJsonAsync<List<ArtisanSummaryDto>>("/api/artisans");
+        var karim = artisans!.Single(a => a.Name == "Abdul Karim");
+
+        var detail = await client.GetFromJsonAsync<ArtisanDetailDto>($"/api/artisans/{karim.Id}");
+
+        detail!.Artisan.Region.Should().Be("Rangpur");
+        detail.Products.Should().HaveCount(8).And.OnlyContain(p => p.ArtisanName == "Abdul Karim");
+    }
+
+    [Fact]
+    public async Task Unknown_artisan_returns_not_found()
+    {
+        var response = await factory.CreateApiClient().GetAsync($"/api/artisans/{Guid.NewGuid()}");
+
+        response.StatusCode.Should().Be(HttpStatusCode.NotFound);
+    }
+
+    [Fact]
+    public async Task Type_and_in_stock_filters_select_featured_unique_pieces()
+    {
+        var page = await factory.CreateApiClient()
+            .GetFromJsonAsync<Paged<ProductCardDto>>("/api/products?type=unique&inStock=true&pageSize=48");
+
+        page!.Items.Should().NotBeEmpty().And.OnlyContain(p => p.IsUnique && p.InStock);
+    }
+
+    [Fact]
+    public async Task Categories_carry_a_tile_image()
+    {
+        var categories = await factory.CreateApiClient().GetFromJsonAsync<List<CategoryDto>>("/api/categories");
+
+        categories!.Where(c => c.Slug.StartsWith("kantha") || c.Slug.StartsWith("jute"))
+            .Should().OnlyContain(c => c.ImageUrl != null);
+    }
+}

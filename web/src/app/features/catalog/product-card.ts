@@ -28,7 +28,7 @@ import { ProductCard } from './catalog.models';
         }
       </div>
       <div class="card__body">
-        <h2 class="card__name">{{ p.name }}</h2>
+        <h3 class="card__name">{{ p.name }}</h3>
         @if (p.artisanName) {
           <p class="card__artisan muted">by {{ p.artisanName }}</p>
         }

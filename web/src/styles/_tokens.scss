@@ -19,6 +19,10 @@
   --color-success: #2f6b4f;
   --color-overlay: rgb(31 42 68 / 40%);
   --color-stitch: var(--color-accent);
+  // Text over photos stays light in both themes, over a dark scrim.
+  --color-on-hero: #fdfbf7;
+  --color-hero-scrim: rgb(20 23 31 / 72%);
+  --color-hero-fallback: #1f2a44; // behind photos, in case one fails to load
 
   // Type
   --font-display: 'Fraunces', 'Cormorant Garamond', Georgia, serif;

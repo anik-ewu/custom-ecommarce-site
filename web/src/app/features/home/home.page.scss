@@ -1,0 +1,218 @@
+.hero {
+  position: relative;
+  display: grid;
+  min-height: min(78vh, 44rem);
+  overflow: hidden;
+  background: var(--color-hero-fallback);
+  color: var(--color-on-hero);
+}
+
+.hero__image {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+// A soft scrim keeps the headline readable on any photo.
+.hero::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  // Full strength behind the text block, fading only above it, so copy stays AA on any photo.
+  background: linear-gradient(to top, var(--color-hero-scrim) 0 60%, transparent 100%);
+}
+
+.hero__content {
+  position: relative;
+  z-index: 1;
+  align-self: end;
+  padding-block: var(--space-9) var(--space-8);
+
+  h1 {
+    max-width: 16ch;
+    font-size: var(--text-4xl);
+  }
+
+  p {
+    max-width: 34rem;
+    margin-block-end: var(--space-5);
+    font-size: var(--text-lg);
+  }
+}
+
+.section {
+  padding-block: var(--space-9) 0;
+}
+
+.section__head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 0 var(--space-4);
+
+  a {
+    display: inline-flex;
+    align-items: center;
+    min-height: var(--tap-target);
+    font-size: var(--text-sm);
+  }
+}
+
+.section__lead {
+  max-width: 36rem;
+  margin-block-end: var(--space-6);
+}
+
+.grid,
+.tiles,
+.artisans__list,
+.trust ul {
+  display: grid;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.grid {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--space-6) var(--space-4);
+
+  @media (min-width: 56rem) {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: var(--space-6);
+  }
+}
+
+.skeleton {
+  aspect-ratio: 4 / 5;
+  border-radius: var(--radius-md);
+  background: var(--color-soft);
+}
+
+.stitch-divider {
+  margin-block: var(--space-9) 0;
+}
+
+.tiles {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--space-4);
+  margin-block-start: var(--space-5);
+
+  @media (min-width: 56rem) {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+}
+
+.tile {
+  position: relative;
+  display: block;
+  aspect-ratio: 4 / 5;
+  overflow: hidden;
+  border-radius: var(--radius-lg);
+  background: var(--color-hero-fallback);
+  color: var(--color-on-hero);
+  text-decoration: none;
+
+  img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform var(--duration-slow) var(--ease);
+  }
+
+  &::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to top, var(--color-hero-scrim) 0 45%, transparent 85%);
+  }
+
+  &:hover img {
+    transform: scale(1.04);
+  }
+}
+
+.tile__name {
+  position: absolute;
+  inset-inline: var(--space-4);
+  bottom: var(--space-4);
+  z-index: 1;
+  font-family: var(--font-display);
+  font-size: var(--text-lg);
+  line-height: var(--leading-tight);
+  text-wrap: balance;
+}
+
+.artisans {
+  margin-block-start: var(--space-9);
+  padding-block-end: var(--space-9);
+  background: var(--color-surface);
+}
+
+.artisans__list {
+  grid-template-columns: repeat(3, minmax(0, 12rem));
+  gap: var(--space-5) var(--space-4);
+
+  @media (min-width: 48rem) {
+    gap: var(--space-6) var(--space-7);
+  }
+}
+
+.artisan {
+  display: grid;
+  gap: var(--space-1);
+  text-decoration: none;
+
+  img {
+    width: 100%;
+    aspect-ratio: 1;
+    margin-block-end: var(--space-2);
+    border-radius: 50%;
+    object-fit: cover;
+  }
+}
+
+.artisan__name {
+  font-family: var(--font-display);
+  font-size: var(--text-lg);
+
+  @media (min-width: 48rem) {
+    font-size: var(--text-xl);
+  }
+}
+
+.section-error {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-3);
+  color: var(--color-muted);
+}
+
+.trust {
+  padding-block: var(--space-9) 0;
+
+  ul {
+    gap: var(--space-6);
+
+    @media (min-width: 48rem) {
+      grid-template-columns: repeat(3, 1fr);
+    }
+  }
+
+  li {
+    display: grid;
+    gap: var(--space-1);
+    padding-block-start: var(--space-4);
+    border-top: var(--stitch-weight) dashed var(--color-stitch);
+  }
+
+  strong {
+    font-family: var(--font-display);
+    font-size: var(--text-xl);
+    font-weight: var(--weight-regular);
+  }
+}

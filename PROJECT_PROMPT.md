@@ -131,7 +131,7 @@ Because Vercel proxies `/api` to Render, the cookie is first-party and **no CORS
 ## 7. API (REST, `/api`)
 
 - `POST /auth/register`, `POST /auth/login`, `POST /auth/demo` (role: customer|admin, no password), `POST /auth/refresh`, `POST /auth/logout`, `GET /auth/me`
-- `GET /categories`, `GET /products?category=&q=&sort=&page=`, `GET /products/{slug}`, `GET /artisans/{id}`
+- `GET /categories` (with a tile `imageUrl`), `GET /products?category=&q=&sort=&type=unique|standard&inStock=&page=&pageSize=`, `GET /products/{slug}`, `GET /artisans`, `GET /artisans/{id}` (with their pieces)
 - `GET /cart`, `POST /cart/items`, `PATCH /cart/items/{id}`, `DELETE /cart/items/{id}`
 - `POST /checkout` (returns order, or Stripe checkout URL), `POST /payments/stripe/webhook`
 - `GET /orders`, `GET /orders/{number}`
@@ -186,7 +186,7 @@ Add new codes to this table when you introduce them.
 
 ## 9. Seed data
 
-Seed one store, 4 categories, 3 artisans with short stories, ~16 products (8 unique kantha pieces, 8 standard jute items), an admin user and a demo customer. Use **placeholder images you have rights to** (your own photos, or a royalty-free source). Never use other sellers' product photos.
+Seed one store, 4 categories, 3 artisans with short stories, ~16 products (8 unique kantha pieces, 8 standard jute items), an admin user and a demo customer. Use **placeholder images you have rights to** (your own photos, or a royalty-free source). Until real photos exist, the seed uses brand-palette SVGs from `scripts/generate-placeholders.mjs`. Never use other sellers' product photos.
 
 Add a "Try the demo" option on the login page that signs in as the demo customer or demo admin (`POST /api/auth/demo`, separate `demo-admin@kinbo.test` account, no shared password).
 
@@ -202,7 +202,7 @@ Tick the box **in the same commit** that finishes the step. A new session starts
 - [x] 3. `feat(auth)`: register/login, JWT + refresh rotation, interceptor, guards
 - [x] 4. `feat(ui)`: design tokens, typography, stitch motif, app shell (header, footer, toast)
 - [x] 5. `feat(catalog)`: categories, product list/detail API + pages
-- [ ] 6. `feat(home)`: home page, artisans
+- [x] 6. `feat(home)`: home page, artisans
 - [ ] 7. `feat(cart)`: cart, reservations, expiry
 - [ ] 8. `feat(checkout)`: orders with COD
 - [ ] 9. `feat(payments)`: Stripe test mode + idempotent webhook
