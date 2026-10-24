@@ -56,8 +56,8 @@ Everything sits at the **repo root** (`custom-ecommarce-site/`), with no extra `
 │        ├─ core/          # auth service, interceptors, guards, error handling
 │        ├─ shared/        # UI components, pipes
 │        └─ features/      # home, catalog, product, cart, checkout, account, admin
-├─ scripts/check.sh        # the quality gate: used locally, by the commit hook, and by CI
-├─ .claude/                # Claude Code hooks, agents, settings
+├─ scripts/check.sh        # the quality gate: used locally and by CI
+├─ .claude/                # Claude Code settings and preview config
 ├─ docker-compose.yml      # postgres (+ api) for local dev
 ├─ .github/workflows/ci.yml
 └─ README.md
@@ -213,7 +213,7 @@ Tick the box **in the same commit** that finishes the step. A new session starts
 - [x] 11. `feat(admin)`: dashboard, products, orders, image upload
 - [x] 12. `chore(deploy)`: Dockerfile, Render, Vercel proxy, Neon, README, demo video script
 
-Each step must end with: `./scripts/check.sh` green, the `reviewer` agent passing, and the feature usable in the browser. UI steps also need the `ui-reviewer` agent passing.
+Each step must end with: `./scripts/check.sh` green, a self-review of the diff against `CLAUDE.md`, and the feature usable in the browser. UI steps also need the 375px and accessibility check from `CLAUDE.md`.
 
 ---
 
