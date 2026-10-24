@@ -235,5 +235,14 @@ public sealed class CheckoutService(
         o.ShippingFee,
         o.Total);
 
-    private DateTime Now => clock.GetUtcNow().UtcDateTime;
+    // Postgres stores microseconds, Linux clocks tick in 100 ns: truncate so the order returned by POST /checkout
+    // matches the same order read back later.
+    private DateTime Now
+    {
+        get
+        {
+            var now = clock.GetUtcNow().UtcDateTime;
+            return now.AddTicks(-(now.Ticks % 10));
+        }
+    }
 }

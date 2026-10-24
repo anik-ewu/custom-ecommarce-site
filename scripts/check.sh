@@ -15,7 +15,10 @@ fi
 echo "==> dotnet build api/Shop.sln"
 dotnet build api/Shop.sln -warnaserror --nologo -v q
 echo "==> dotnet test api/Shop.sln"
-dotnet test api/Shop.sln --no-build --nologo -v q
+# In CI, print each failing test's message and stack so a red run can be diagnosed from the log.
+test_logger=()
+[ -n "${CI:-}" ] && test_logger=(--logger "console;verbosity=normal")
+dotnet test api/Shop.sln --no-build --nologo -v q ${test_logger[@]+"${test_logger[@]}"}
 
 echo "==> web lint"
 npm --prefix web run lint
