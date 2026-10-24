@@ -85,7 +85,7 @@ Keep it simple: **no MediatR, no repository-over-EF layer, no CQRS.** Applicatio
 - `Payment` (OrderId, Provider, ProviderRef, Status, Amount)
 - `ProcessedWebhookEvent` (Provider, EventId) for idempotency
 
-Money is `decimal(18,2)`, currency BDT. Snapshots on `OrderItem` so later price changes never rewrite history.
+Money is `decimal(18,2)`, currency BDT, shown as "Tk 2,400" (lakh grouping). Snapshots on `OrderItem` so later price changes never rewrite history.
 
 ---
 
@@ -201,7 +201,7 @@ Tick the box **in the same commit** that finishes the step. A new session starts
 - [x] 2. `feat(db)`: entities, DbContext, tenant filter, migrations, seed
 - [x] 3. `feat(auth)`: register/login, JWT + refresh rotation, interceptor, guards
 - [x] 4. `feat(ui)`: design tokens, typography, stitch motif, app shell (header, footer, toast)
-- [ ] 5. `feat(catalog)`: categories, product list/detail API + pages
+- [x] 5. `feat(catalog)`: categories, product list/detail API + pages
 - [ ] 6. `feat(home)`: home page, artisans
 - [ ] 7. `feat(cart)`: cart, reservations, expiry
 - [ ] 8. `feat(checkout)`: orders with COD

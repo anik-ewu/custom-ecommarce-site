@@ -1,6 +1,8 @@
-import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
-import { FormControl, ReactiveFormsModule } from '@angular/forms';
-import { Router, RouterLink, RouterLinkActive } from '@angular/router';
+import { ChangeDetectionStrategy, Component, DestroyRef, inject } from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { NonNullableFormBuilder, ReactiveFormsModule } from '@angular/forms';
+import { NavigationEnd, Router, RouterLink, RouterLinkActive } from '@angular/router';
+import { filter } from 'rxjs';
 import { AuthService } from '../auth/auth.service';
 import { ToastService } from '../../shared/toast/toast.service';
 
@@ -16,10 +18,23 @@ export class SiteHeader {
   private readonly router = inject(Router);
   private readonly toasts = inject(ToastService);
 
-  protected readonly query = new FormControl('', { nonNullable: true });
+  protected readonly searchForm = inject(NonNullableFormBuilder).group({ q: '' });
+
+  constructor() {
+    // Keep the box in step with ?q, so the search you ran stays visible on the results page.
+    this.router.events
+      .pipe(
+        filter((e) => e instanceof NavigationEnd),
+        takeUntilDestroyed(inject(DestroyRef)),
+      )
+      .subscribe(() => {
+        const q = this.router.parseUrl(this.router.url).queryParams['q'] ?? '';
+        this.searchForm.controls.q.setValue(q);
+      });
+  }
 
   search(): void {
-    const q = this.query.value.trim();
+    const q = this.searchForm.controls.q.value.trim();
     void this.router.navigate(['/shop'], { queryParams: q ? { q } : {} });
   }
 

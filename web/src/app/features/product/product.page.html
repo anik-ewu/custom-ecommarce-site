@@ -1,0 +1,95 @@
+<div class="container product-page">
+  @if (product.hasValue()) {
+    @let p = product.value();
+    <nav class="crumbs" aria-label="Breadcrumb">
+      <ol>
+        <li><a class="stitch-link" routerLink="/">Home</a></li>
+        <li><a class="stitch-link" routerLink="/shop">Shop</a></li>
+        <li>
+          <a class="stitch-link" routerLink="/shop" [queryParams]="{ category: p.category.slug }">{{
+            p.category.name
+          }}</a>
+        </li>
+        <li aria-current="page">{{ p.name }}</li>
+      </ol>
+    </nav>
+
+    <article class="product">
+      <app-product-gallery class="product__gallery" [images]="p.images" />
+
+      <div class="product__info">
+        <h1>{{ p.name }}</h1>
+        <p class="product__price">{{ p.price | taka }}</p>
+
+        <p class="availability">
+          @if (p.availableQuantity === 0) {
+            {{ p.isUnique ? 'This piece has found its home.' : 'Out of stock for now.' }}
+          } @else if (p.isUnique) {
+            <strong>One of a kind.</strong> Only 1 available.
+          } @else {
+            In stock, ready to ship.
+          }
+        </p>
+
+        <p class="product__description">{{ p.description }}</p>
+
+        <dl class="facts">
+          <div>
+            <dt>Materials</dt>
+            <dd>{{ p.materials }}</dd>
+          </div>
+          <div>
+            <dt>Dimensions</dt>
+            <dd>{{ p.dimensions }}</dd>
+          </div>
+        </dl>
+
+        <aside class="stitch-note">
+          Every stitch is made by hand. Small irregularities are part of the piece, not flaws.
+        </aside>
+
+        @if (p.artisan; as a) {
+          <section class="artisan" aria-labelledby="artisan-name">
+            @if (a.photoUrl) {
+              <img
+                [src]="a.photoUrl"
+                [alt]="'Portrait of ' + a.name"
+                width="96"
+                height="96"
+                loading="lazy"
+              />
+            }
+            <div>
+              <p class="artisan__eyebrow muted">Made by</p>
+              <h2 id="artisan-name" class="artisan__name">{{ a.name }}, {{ a.region }}</h2>
+              <p>{{ a.story }}</p>
+              <a class="stitch-link" [routerLink]="['/artisans', a.id]"
+                >Meet {{ a.name.split(' ')[0] }}</a
+              >
+            </div>
+          </section>
+        }
+      </div>
+    </article>
+  } @else if (notFound()) {
+    <div class="missing">
+      <h1>We couldn't find that piece</h1>
+      <p class="muted">It may have been sold or moved. There is plenty more to see.</p>
+      <a class="btn btn--primary" routerLink="/shop">Explore the collection</a>
+    </div>
+  } @else if (product.error()) {
+    <div class="missing">
+      <h1>Something went wrong</h1>
+      <p class="muted">Please check your connection and try again.</p>
+      <button class="btn btn--ghost" type="button" (click)="product.reload()">Try again</button>
+    </div>
+  } @else {
+    <div class="product" aria-busy="true" aria-label="Loading product">
+      <div class="skeleton skeleton--media"></div>
+      <div class="product__info">
+        <div class="skeleton skeleton--title"></div>
+        <div class="skeleton skeleton--line"></div>
+      </div>
+    </div>
+  }
+</div>

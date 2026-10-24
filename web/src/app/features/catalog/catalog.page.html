@@ -1,0 +1,104 @@
+<section class="catalog container" aria-labelledby="catalog-title">
+  <header class="catalog__head">
+    <h1 id="catalog-title">{{ heading() }}</h1>
+    <p class="muted">
+      Nakshi kantha pieces are one of a kind. Jute goods are made in small batches.
+    </p>
+  </header>
+
+  <nav class="chips" aria-label="Categories">
+    <a
+      class="chip"
+      [routerLink]="[]"
+      [queryParams]="{ category: null, page: null }"
+      queryParamsHandling="merge"
+      [attr.aria-current]="!category() ? 'page' : null"
+      >All</a
+    >
+    @for (c of categories.hasValue() ? categories.value() : []; track c.id) {
+      <a
+        class="chip"
+        [routerLink]="[]"
+        [queryParams]="{ category: c.slug, page: null }"
+        queryParamsHandling="merge"
+        [attr.aria-current]="category() === c.slug ? 'page' : null"
+        >{{ c.name }}</a
+      >
+    }
+  </nav>
+
+  <div class="catalog__bar">
+    <p class="muted" aria-live="polite">
+      @if (products.hasValue()) {
+        {{ products.value().totalCount }}
+        {{ products.value().totalCount === 1 ? 'piece' : 'pieces' }}
+      }
+    </p>
+    <label class="sort">
+      <span>Sort</span>
+      <select [value]="sort() ?? 'newest'" (change)="setSort($any($event.target).value)">
+        <option value="newest">Newest</option>
+        <option value="price-asc">Price: low to high</option>
+        <option value="price-desc">Price: high to low</option>
+      </select>
+    </label>
+  </div>
+
+  @if (products.error()) {
+    <div class="empty">
+      <h2>We couldn't load the collection</h2>
+      <p class="muted">Please check your connection and try again.</p>
+      <button class="btn btn--ghost" type="button" (click)="products.reload()">Try again</button>
+    </div>
+  } @else if (products.isLoading() && !products.hasValue()) {
+    <ul class="grid" aria-busy="true" aria-label="Loading products">
+      @for (s of skeletons; track s) {
+        <li class="skeleton">
+          <div class="skeleton__media"></div>
+          <div class="skeleton__line"></div>
+          <div class="skeleton__line skeleton__line--short"></div>
+        </li>
+      }
+    </ul>
+  } @else if (products.value(); as result) {
+    @if (result.items.length === 0) {
+      <div class="empty">
+        <h2>{{ q() ? 'No pieces match “' + q() + '”' : 'Nothing here yet' }}</h2>
+        <p class="muted">Try a different search, or browse the whole collection.</p>
+        @if (hasFilters()) {
+          <a class="btn btn--primary" routerLink="/shop">See everything</a>
+        }
+      </div>
+    } @else {
+      <ul class="grid" [attr.aria-busy]="products.isLoading()">
+        @for (p of result.items; track p.id) {
+          <li><app-product-card [product]="p" /></li>
+        }
+      </ul>
+
+      @if (result.totalPages > 1) {
+        <nav class="pager" aria-label="Pages">
+          @if (pageNumber() > 1) {
+            <a
+              class="btn btn--ghost"
+              [routerLink]="[]"
+              [queryParams]="{ page: pageNumber() - 1 }"
+              queryParamsHandling="merge"
+              >Previous</a
+            >
+          }
+          <span class="muted">Page {{ pageNumber() }} of {{ result.totalPages }}</span>
+          @if (pageNumber() < result.totalPages) {
+            <a
+              class="btn btn--ghost"
+              [routerLink]="[]"
+              [queryParams]="{ page: pageNumber() + 1 }"
+              queryParamsHandling="merge"
+              >Next</a
+            >
+          }
+        </nav>
+      }
+    }
+  }
+</section>

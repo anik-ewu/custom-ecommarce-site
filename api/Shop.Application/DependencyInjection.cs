@@ -1,6 +1,7 @@
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Shop.Application.Auth;
+using Shop.Application.Catalog;
 
 namespace Shop.Application;
 
@@ -11,6 +12,7 @@ public static class DependencyInjection
         services.Configure<AuthOptions>(config.GetSection("Auth"));
         services.AddSingleton<TokenService>();
         services.AddScoped<AuthService>();
+        services.AddScoped<CatalogService>();
         return services;
     }
 }

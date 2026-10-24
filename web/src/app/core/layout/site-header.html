@@ -23,12 +23,12 @@
       <a class="header__action header__cart stitch-link" routerLink="/cart">Cart</a>
     </div>
 
-    <form class="header__search" role="search" (ngSubmit)="search()">
+    <form class="header__search" role="search" [formGroup]="searchForm" (ngSubmit)="search()">
       <label class="visually-hidden" for="site-search">Search the collection</label>
       <input
         id="site-search"
         type="search"
-        [formControl]="query"
+        formControlName="q"
         placeholder="Search kantha, jute…"
       />
     </form>
