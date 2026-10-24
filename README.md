@@ -90,12 +90,14 @@ Business contact details shown on the legal pages live in `web/src/app/core/shop
 
 ## Deploy (free tiers)
 
-1. **Neon**: create a project and copy the connection string; convert it to the Npgsql format above.
+1. **Neon**: create a project (region: AWS Singapore, next to Render's). In **Connect**, turn **connection pooling
+   off** (EF Core migrations run on startup and want a direct connection) and pick the **.NET** format, or convert
+   the URI to `Host=…;Database=…;Username=…;Password=…;SSL Mode=Require`.
 2. **Render**: New → Blueprint → pick this repo. `render.yaml` builds `api/Dockerfile`, checks
-   `/api/health`, and generates `Auth__SigningKey`. Fill in the connection string, admin password and
-   Cloudinary values when asked.
-3. **Vercel**: import the repo with **Root Directory `web`**. In `web/vercel.json`, change the `/api` rewrite
-   destination to your Render URL (e.g. `https://kinbo-api.onrender.com`) before the first deploy.
+   `/api/health`, and generates `Auth__SigningKey`. Paste the Neon string into `ConnectionStrings__Default`,
+   choose a `Seed__AdminPassword`, and leave the Cloudinary values empty until you have them.
+3. **Vercel**: in `web/vercel.json`, set the `/api` rewrite destination to your Render URL and push. Then import
+   the repo with **Root Directory `web`**; `vercel.json` sets the build, and `package.json` pins Node 24.
 4. Open the Vercel URL and use **Try the demo**.
 
 A demo walkthrough script for a short video is in [docs/demo-script.md](docs/demo-script.md).
