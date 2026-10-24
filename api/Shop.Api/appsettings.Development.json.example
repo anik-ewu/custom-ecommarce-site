@@ -1,5 +1,9 @@
 {
   "ConnectionStrings": {
     "Default": "Host=localhost;Port=5432;Database=shop;Username=shop;Password=<POSTGRES_PASSWORD from .env>"
+  },
+  "Seed": {
+    "AdminPassword": "<choose a local admin password>",
+    "DemoPassword": "<choose a local demo password>"
   }
 }

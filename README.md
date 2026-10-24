@@ -16,3 +16,15 @@ npm --prefix web ci && npm --prefix web start   # http://localhost:4200, /api is
 ```
 
 Quality gate (same as CI): `./scripts/check.sh`.
+
+Seed users need local passwords (never committed): set `Seed:AdminPassword` and `Seed:DemoPassword` in
+`appsettings.Development.json` or with `dotnet user-secrets --project api/Shop.Api set Seed:DemoPassword <value>`.
+The API migrates and seeds on startup (`Database:MigrateOnStartup`, `Seed:Enabled`).
+
+## Architecture notes
+
+- Project references: `Api → Application → Infrastructure → Domain`. Application services use `ShopDbContext`
+  directly (no repository layer), so Application depends on Infrastructure rather than the other way round.
+- Tenancy: every `IStoreOwned` entity has a `StoreId` query filter. `TenantMiddleware` resolves the store from
+  `Shop:StoreSlug` once per request; new rows get the request's `StoreId` in `SaveChangesAsync`.
+- Placeholder images come from picsum.photos (Unsplash-licensed) until real product photos are added.

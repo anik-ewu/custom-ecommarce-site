@@ -1,13 +1,14 @@
 using System.Net;
 using FluentAssertions;
-using Microsoft.AspNetCore.Mvc.Testing;
+using Shop.Tests.Infrastructure;
 
 namespace Shop.Tests.Health;
 
-public sealed class HealthTests(WebApplicationFactory<Program> factory) : IClassFixture<WebApplicationFactory<Program>>
+[Collection(ApiCollection.Name)]
+public sealed class HealthTests(ApiFactory factory)
 {
     [Fact]
-    public async Task Health_returns_ok()
+    public async Task Health_returns_ok_when_database_is_reachable()
     {
         var response = await factory.CreateClient().GetAsync("/api/health");
 

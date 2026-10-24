@@ -78,7 +78,7 @@ Keep it simple: **no MediatR, no repository-over-EF layer, no CQRS.** Applicatio
 - `ProductImage` (ProductId, Url, Alt, SortOrder)
 - `User` (Email, PasswordHash, Name, Role = `Customer | Admin`)
 - `RefreshToken` (UserId, TokenHash, FamilyId, ExpiresAt, RevokedAt, ReplacedById, CreatedAt)
-- `Cart` (StoreId, UserId or AnonymousId), `CartItem` (ProductId, Quantity)
+- `Cart` (StoreId, UserId or AnonymousId), `CartItem` (ProductId, Quantity, UnitPrice at add time, for `PRICE_CHANGED`)
 - `Reservation` (ProductId, CartId, Quantity, ExpiresAt)
 - `Order` (StoreId, UserId, Number, Status, ShippingAddress, Subtotal, ShippingFee, Total, PaymentMethod, CreatedAt)
 - `OrderItem` (OrderId, ProductId, NameSnapshot, PriceSnapshot, Quantity)
@@ -119,6 +119,7 @@ Because Vercel proxies `/api` to Render, the cookie is first-party and **no CORS
 
 - **Reservations** apply to unique items only. Standard items are checked and decremented at checkout.
 - **Anonymous cart:** an `AnonymousId` httpOnly cookie. On login, merge it into the user's cart; unique items keep their existing reservation.
+- **Checkout requires login** (`Order.UserId` is required). Browsing and the cart work signed out; the cart merges on login.
 - **Shipping:** flat `Shop:ShippingFee` (e.g. 120 BDT), free at or above `Shop:FreeShippingThreshold`. Both are config values.
 - **Order number:** `KB-YYYYMMDD-XXXX` (random suffix, unique index).
 - **Order status:** `Pending → Confirmed → Shipped → Delivered`, or `Cancelled` from `Pending`/`Confirmed`. Cancelling restores standard stock and frees unique items.
@@ -150,6 +151,8 @@ Because Vercel proxies `/api` to Render, the cookie is first-party and **no CORS
 | `PRICE_CHANGED` | 409 | Price changed since it was added to the cart; client shows the new total |
 | `CONFLICT` | 409 | Other concurrency conflict (e.g. email already registered) |
 | `RATE_LIMITED` | 429 | Too many auth attempts |
+| `INTERNAL_ERROR` | 500 | Unexpected server error |
+| `STORE_NOT_CONFIGURED` | 503 | The configured store doesn't exist yet (seed not run) |
 
 Add new codes to this table when you introduce them.
 
@@ -195,7 +198,7 @@ Tick the box **in the same commit** that finishes the step. A new session starts
 
 - [x] 0. `chore(claude)`: project rules, hooks and agents
 - [x] 1. `chore`: solution, Angular app (with Prettier + ESLint), docker-compose, `scripts/check.sh` filled in, CI calling it, health endpoint
-- [ ] 2. `feat(db)`: entities, DbContext, tenant filter, migrations, seed
+- [x] 2. `feat(db)`: entities, DbContext, tenant filter, migrations, seed
 - [ ] 3. `feat(auth)`: register/login, JWT + refresh rotation, interceptor, guards
 - [ ] 4. `feat(ui)`: design tokens, typography, stitch motif, app shell (header, footer, toast)
 - [ ] 5. `feat(catalog)`: categories, product list/detail API + pages
