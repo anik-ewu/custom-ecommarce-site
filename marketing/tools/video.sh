@@ -1,7 +1,8 @@
 #!/bin/bash
 # Builds the promo video: per-scene clips, then crossfades them together.
+# Usage: video.sh <scenes> <screenshots> <out.mp4> <work dir> [main|fiverr]
 set -euo pipefail
-SCENES=$1; SHOTS=$2; OUT=$3; WORK=$4
+SCENES=$1; SHOTS=$2; OUT=$3; WORK=$4; CUT=${5:-main}
 mkdir -p "$WORK"
 FPS=30; ENC="-c:v libx264 -preset slow -crf 18 -pix_fmt yuv420p -r $FPS"
 
@@ -25,9 +26,12 @@ still 01-intro 4 0
 for s in 03-shop 04-product 05-cart 06-checkout 07-mobile 08-admin 09-admin-products; do still $s 5 1; done
 still 10-quality 6 0
 still 11-outro 5 0
+if [ "$CUT" = fiverr ]; then still 12-process 6 0; still 13-outro-fiverr 5 0; fi
 
 # Crossfade chain.
 CLIPS=(01-intro 02-home 03-shop 04-product 05-cart 06-checkout 07-mobile 08-admin 09-admin-products 10-quality 11-outro)
+# Fiverr cut: adds the process scene and ends on a Fiverr call to action (still under the 75 s limit).
+[ "$CUT" = fiverr ] && CLIPS=("${CLIPS[@]:0:10}" 12-process 13-outro-fiverr)
 XF=0.6; inputs=(); filter=""; offset=0; prev="0:v"
 for i in "${!CLIPS[@]}"; do
   inputs+=(-i "$WORK/${CLIPS[$i]}.mp4")

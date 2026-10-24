@@ -60,6 +60,21 @@ const scenes = {
     <h1 class="display" style="font-size:120px;margin-bottom:26px">Let's build your store</h1>
     <p style="font-size:36px;opacity:.85;margin-bottom:56px">Storefront · Checkout · Admin panel · Deployment</p>
     <div class="cta">Message me to get started</div></div>` },
+  // Fiverr cut only (video.sh fiverr): how an order runs, then a Fiverr call to action.
+  '12-process': { body: `<div class="stitch" style="top:70px"></div><div class="stitch" style="bottom:70px"></div><div style="position:absolute;left:160px;right:160px;top:250px">
+    <div class="eyebrow">How we work</div><h2 class="display" style="font-size:76px;margin:20px 0 60px">From first message to live store</h2>
+    <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:32px">${[
+      ['01', 'Discuss', 'Pages, products, payment method and timeline'],
+      ['02', 'Design', 'A look built around your brand, mobile-first'],
+      ['03', 'Build', 'Storefront, checkout and admin, with milestone updates'],
+      ['04', 'Launch', 'Deployed live, full source code handed over'],
+    ].map(([n, t, d]) => `<div style="background:#fff;border:2px solid var(--soft);border-radius:24px;padding:40px 36px">
+      <div class="display" style="font-size:56px;color:var(--accent-strong)">${n}</div>
+      <div style="font-size:38px;font-weight:700;margin:14px 0 12px">${t}</div><div style="font-size:26px;color:var(--muted);line-height:1.4">${d}</div></div>`).join('')}</div></div>` },
+  '13-outro-fiverr': { cls: 'dark', body: `<div style="position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center">
+    <h1 class="display" style="font-size:120px;margin-bottom:26px">Let's build your store</h1>
+    <p style="font-size:36px;opacity:.85;margin-bottom:56px">Starter Store · Complete Store · Store + Admin</p>
+    <div class="cta">Message me on Fiverr to get started</div></div>` },
 };
 
 const b = await chromium.launch();
