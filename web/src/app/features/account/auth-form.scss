@@ -21,6 +21,11 @@ form {
   margin-block-start: var(--space-8);
 }
 
+.auth__consent {
+  margin: 0;
+  font-size: var(--text-sm);
+}
+
 .auth__switch {
   margin-block-start: var(--space-6);
 }

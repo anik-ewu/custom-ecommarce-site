@@ -1,0 +1,138 @@
+<article class="container legal" aria-labelledby="terms-title">
+  <h1 id="terms-title">Terms and conditions</h1>
+  <p class="muted legal__meta">Last updated {{ shop.legalLastUpdated }}</p>
+
+  <div class="legal__summary">
+    <p>
+      <strong>In short:</strong> every piece is made by hand, so small variations are part of it. We
+      hold one-of-a-kind pieces for 15 minutes while they're in your cart, confirm each order by
+      phone, and you pay in cash when it arrives.
+    </p>
+  </div>
+
+  <nav class="legal__toc" aria-labelledby="terms-toc">
+    <h2 id="terms-toc">On this page</h2>
+    <ol>
+      <li><a [routerLink]="[]" fragment="about">About these terms</a></li>
+      <li><a [routerLink]="[]" fragment="accounts">Your account</a></li>
+      <li><a [routerLink]="[]" fragment="products">Handmade products</a></li>
+      <li><a [routerLink]="[]" fragment="holds">Holds on one-of-a-kind pieces</a></li>
+      <li><a [routerLink]="[]" fragment="orders">Orders and prices</a></li>
+      <li><a [routerLink]="[]" fragment="payment">Payment</a></li>
+      <li><a [routerLink]="[]" fragment="delivery">Delivery</a></li>
+      <li><a [routerLink]="[]" fragment="returns">Cancellations and returns</a></li>
+      <li><a [routerLink]="[]" fragment="use">Using the site</a></li>
+      <li><a [routerLink]="[]" fragment="liability">Our responsibility</a></li>
+      <li><a [routerLink]="[]" fragment="law">Law and changes</a></li>
+    </ol>
+  </nav>
+
+  <h2 id="about">1. About these terms</h2>
+  <p>
+    These terms apply when you browse or buy from {{ shop.name }} ("we", "us"), a shop for handmade
+    goods based in {{ shop.city }}. By creating an account or placing an order you agree to them.
+    How we handle personal information is explained in our
+    <a routerLink="/privacy">privacy policy</a>.
+  </p>
+
+  <h2 id="accounts">2. Your account</h2>
+  <ul>
+    <li>Give accurate details, and keep your password to yourself.</li>
+    <li>
+      If you sign in with Google (when offered), your Google account is used to identify you;
+      Google's own terms also apply to that sign-in.
+    </li>
+    <li>
+      You're responsible for orders placed from your account. Tell us straight away if you think
+      someone else has used it.
+    </li>
+    <li>You can ask us to close your account at any time.</li>
+  </ul>
+
+  <h2 id="products">3. Handmade products</h2>
+  <p>
+    Our nakshi kantha pieces are stitched by hand from layered cotton, and our jute goods are
+    braided and woven by hand. Slight differences in stitch, size and colour between the photos and
+    your piece are part of handmade work, not defects. Colours can also look different on different
+    screens. Dimensions are approximate.
+  </p>
+
+  <h2 id="holds">4. Holds on one-of-a-kind pieces</h2>
+  <p>
+    When you add a one-of-a-kind piece to your cart we hold it for you for 15 minutes, so nobody
+    else can buy it during that time. When the hold ends, the piece is available to other shoppers
+    again. A hold is a courtesy, not a sale: the piece is yours only once your order is placed.
+  </p>
+
+  <h2 id="orders">5. Orders and prices</h2>
+  <ul>
+    <li>
+      Prices are in Bangladeshi taka (BDT). The delivery fee, if any, is shown before you order.
+    </li>
+    <li>
+      If a price changes while a piece is in your cart, we show you the new total before you can
+      place the order.
+    </li>
+    <li>
+      Placing an order is an offer to buy. We confirm it by phone. We may decline or cancel an
+      order, for example if an item is no longer available, a price was shown in error, or we can't
+      reach you to confirm. If that happens we'll tell you, and you won't be charged.
+    </li>
+  </ul>
+
+  <h2 id="payment">6. Payment</h2>
+  <p>
+    Today we accept cash on delivery: you pay the courier in full when your parcel arrives. If we
+    add card payments, they will be processed securely by our payment provider and you'll be charged
+    when you place the order. Repeatedly refusing cash-on-delivery parcels may lead us to ask for
+    payment in advance on future orders.
+  </p>
+
+  <h2 id="delivery">7. Delivery</h2>
+  <p>
+    We deliver within Bangladesh. Delivery usually takes 3–5 days after we confirm your order, but
+    times are estimates and can be affected by weather, holidays and courier delays. Please check
+    your parcel when it arrives and tell us about any damage within 48 hours.
+  </p>
+
+  <h2 id="returns">8. Cancellations and returns</h2>
+  <ul>
+    <li>
+      You can cancel free of charge until your order has been shipped. Contact us as soon as you
+      can.
+    </li>
+    <li>
+      If an item arrives damaged, or isn't what you ordered, contact us within 7 days of delivery
+      with your order number and a photo. We'll arrange a replacement where possible, or a refund.
+    </li>
+    <li>
+      Because each one-of-a-kind piece is unique, it can't be replaced with the same item; we'll
+      offer a refund or a similar piece instead.
+    </li>
+    <li>Natural variations of handmade work (section 3) are not a reason for a return.</li>
+  </ul>
+  <p>This doesn't affect your rights as a consumer under Bangladeshi law.</p>
+
+  <h2 id="use">9. Using the site</h2>
+  <p>
+    Photos, text and designs on this site belong to {{ shop.name }} or our artisans. Please don't
+    copy them for commercial use without permission. Don't misuse the site, for example by trying to
+    break its security, scraping it, or holding pieces you don't intend to buy.
+  </p>
+
+  <h2 id="liability">10. Our responsibility</h2>
+  <p>
+    We do our best to keep the site available and the information on it accurate, but we can't
+    promise it will always be error-free. As far as the law allows, our responsibility for an order
+    is limited to the amount you paid for it. Nothing in these terms limits responsibility that
+    can't be limited by law.
+  </p>
+
+  <h2 id="law">11. Law and changes</h2>
+  <p>
+    These terms are governed by the laws of Bangladesh, and disputes will be handled by the courts
+    of Dhaka. We may update these terms; the version in force when you place an order applies to
+    that order. Questions: <a [href]="'mailto:' + shop.contactEmail">{{ shop.contactEmail }}</a
+    >.
+  </p>
+</article>

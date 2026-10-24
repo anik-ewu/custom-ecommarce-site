@@ -15,6 +15,8 @@ import { RouterLink } from '@angular/router';
           <ul>
             <li><a class="stitch-link" routerLink="/shop">Shop the collection</a></li>
             <li><a class="stitch-link" routerLink="/login">Your account</a></li>
+            <li><a class="stitch-link" routerLink="/privacy">Privacy policy</a></li>
+            <li><a class="stitch-link" routerLink="/terms">Terms and conditions</a></li>
           </ul>
         </nav>
         <p class="muted footer__small">Cash on delivery across Bangladesh · © {{ year }} Kinbo</p>

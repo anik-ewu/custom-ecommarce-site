@@ -179,6 +179,7 @@ Add new codes to this table when you introduce them.
 5. **Checkout:** single page, few fields, COD or card, clear order summary.
 6. **Account:** login/register, order history, order detail.
 7. **Admin:** sidebar layout, dashboard cards, products table with image upload, orders with status updates.
+8. **Legal:** `/privacy` (incl. how Google sign-in data is used, per Google's API User Data Policy) and `/terms` (holds, COD, delivery, returns), linked from the footer, sign-up and checkout. Business contact details live in `web/src/app/core/shop-info.ts`; they are required before enabling Google OAuth.
 
 **UX rules:** maximum 3 clicks from home to checkout; sticky header with search and cart count; breadcrumbs on product pages; empty states with a helpful next step; every action gives visible feedback (toast or inline). Mobile-first, accessible (WCAG AA contrast, keyboard navigation, alt text, labelled inputs). Lighthouse target: 90+ performance and accessibility.
 

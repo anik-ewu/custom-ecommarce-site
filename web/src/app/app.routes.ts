@@ -50,5 +50,15 @@ export const routes: Routes = [
     title: 'Create account · Kinbo',
     loadComponent: () => import('./features/account/register.page').then((m) => m.RegisterPage),
   },
+  {
+    path: 'privacy',
+    title: 'Privacy policy · Kinbo',
+    loadComponent: () => import('./features/legal/privacy.page').then((m) => m.PrivacyPage),
+  },
+  {
+    path: 'terms',
+    title: 'Terms and conditions · Kinbo',
+    loadComponent: () => import('./features/legal/terms.page').then((m) => m.TermsPage),
+  },
   { path: '**', redirectTo: '' },
 ];

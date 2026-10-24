@@ -74,6 +74,11 @@ form {
   font-size: var(--text-sm);
 }
 
+.checkout__consent {
+  margin: 0;
+  font-size: var(--text-sm);
+}
+
 .form-error:focus {
   outline: none;
 }

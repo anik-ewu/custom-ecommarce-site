@@ -57,6 +57,17 @@
       <p class="form-error" role="alert">{{ message }}</p>
     }
 
+    <p class="auth__consent muted">
+      By creating an account you agree to our
+      <a routerLink="/terms" target="_blank" rel="noopener"
+        >terms<span class="visually-hidden"> (opens in a new tab)</span></a
+      >
+      and
+      <a routerLink="/privacy" target="_blank" rel="noopener"
+        >privacy policy<span class="visually-hidden"> (opens in a new tab)</span></a
+      >.
+    </p>
+
     <button class="btn btn--primary" type="submit" [disabled]="busy()">Create account</button>
   </form>
 

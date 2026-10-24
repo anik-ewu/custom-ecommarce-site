@@ -107,6 +107,16 @@
             <p class="form-error" id="checkout-error" role="alert" tabindex="-1">{{ message }}</p>
           }
 
+          <p class="checkout__consent muted">
+            By placing your order you agree to our
+            <a routerLink="/terms" target="_blank" rel="noopener"
+              >terms<span class="visually-hidden"> (opens in a new tab)</span></a
+            >. We use your details to deliver it, as explained in our
+            <a routerLink="/privacy" target="_blank" rel="noopener"
+              >privacy policy<span class="visually-hidden"> (opens in a new tab)</span></a
+            >.
+          </p>
+
           <button
             class="btn btn--primary btn--block"
             type="submit"

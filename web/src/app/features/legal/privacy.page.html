@@ -1,0 +1,192 @@
+<article class="container legal" aria-labelledby="privacy-title">
+  <h1 id="privacy-title">Privacy policy</h1>
+  <p class="muted legal__meta">Last updated {{ shop.legalLastUpdated }}</p>
+
+  <div class="legal__summary">
+    <p>
+      <strong>In short:</strong> we collect only what we need to sell and deliver your order. We
+      don't sell your data, we don't use advertising or tracking cookies, and you can ask us to
+      delete your account at any time.
+    </p>
+  </div>
+
+  <nav class="legal__toc" aria-labelledby="privacy-toc">
+    <h2 id="privacy-toc">On this page</h2>
+    <ol>
+      <li><a [routerLink]="[]" fragment="who-we-are">Who we are</a></li>
+      <li><a [routerLink]="[]" fragment="what-we-collect">What we collect</a></li>
+      <li><a [routerLink]="[]" fragment="google">Signing in with Google</a></li>
+      <li><a [routerLink]="[]" fragment="how-we-use">How we use it</a></li>
+      <li><a [routerLink]="[]" fragment="sharing">Who we share it with</a></li>
+      <li><a [routerLink]="[]" fragment="cookies">Cookies</a></li>
+      <li><a [routerLink]="[]" fragment="retention">How long we keep it</a></li>
+      <li><a [routerLink]="[]" fragment="security">Security</a></li>
+      <li><a [routerLink]="[]" fragment="rights">Your choices and rights</a></li>
+      <li><a [routerLink]="[]" fragment="children">Children</a></li>
+      <li><a [routerLink]="[]" fragment="changes">Changes and contact</a></li>
+    </ol>
+  </nav>
+
+  <h2 id="who-we-are">1. Who we are</h2>
+  <p>
+    {{ shop.legalName }} ("{{ shop.name }}", "we", "us") sells handmade nakshi kantha and jute goods
+    from {{ shop.city }} through this website. We are responsible for the personal information
+    described here. Questions about privacy go to
+    <a [href]="'mailto:' + shop.contactEmail">{{ shop.contactEmail }}</a
+    >.
+  </p>
+
+  <h2 id="what-we-collect">2. What we collect</h2>
+  <ul>
+    <li>
+      <strong>Account details:</strong> your name and email address, and your password, which we
+      store only as a secure one-way hash.
+    </li>
+    <li>
+      <strong>Order and delivery details:</strong> the recipient's name, mobile number and delivery
+      address, the items you ordered, prices and order status.
+    </li>
+    <li>
+      <strong>Your cart:</strong> the pieces you add, including the 15-minute hold on one-of-a-kind
+      items, whether or not you are signed in.
+    </li>
+    <li>
+      <strong>Technical information:</strong> your IP address and basic request details in our
+      server logs, which we use to keep the site secure (for example to limit repeated sign-in
+      attempts).
+    </li>
+  </ul>
+  <p>
+    We don't collect card numbers: today we only take cash on delivery. If we add card payments, the
+    card details go directly to our payment processor and never reach our servers.
+  </p>
+
+  <h2 id="google">3. Signing in with Google</h2>
+  <p>
+    If you choose "Sign in with Google" (when we offer it), Google shares your
+    <strong>name, email address and profile picture</strong> with us, and only after you agree on
+    Google's own consent screen. We use this information only to create your {{ shop.name }} account
+    and sign you in. We don't ask for access to your contacts, files, calendar or any other Google
+    data.
+  </p>
+  <p>
+    Our use of information received from Google APIs adheres to the
+    <a
+      href="https://developers.google.com/terms/api-services-user-data-policy"
+      target="_blank"
+      rel="noopener noreferrer"
+      >Google API Services User Data Policy</a
+    >, including the Limited Use requirements. We don't sell Google user data, use it for
+    advertising, or let anyone else read it, except where needed to run this service, for security,
+    or when the law requires it. You can remove {{ shop.name }}'s access at any time in your
+    <a href="https://myaccount.google.com/permissions" target="_blank" rel="noopener noreferrer"
+      >Google account settings</a
+    >.
+  </p>
+
+  <h2 id="how-we-use">4. How we use it</h2>
+  <ul>
+    <li>
+      To take, confirm, deliver and support your orders, including calling you before delivery.
+    </li>
+    <li>To run your account and keep you signed in.</li>
+    <li>To hold one-of-a-kind pieces for you while they're in your cart.</li>
+    <li>To prevent fraud and abuse, and to keep the site secure.</li>
+    <li>To meet our legal, tax and accounting obligations in Bangladesh.</li>
+  </ul>
+  <p>We don't send marketing messages, and we don't build advertising profiles.</p>
+
+  <h2 id="sharing">5. Who we share it with</h2>
+  <p>We never sell your personal information. We share it only with:</p>
+  <ul>
+    <li>
+      <strong>Delivery partners</strong>, who receive the recipient's name, mobile number and
+      address to deliver your parcel.
+    </li>
+    <li>
+      <strong>Service providers</strong> who host our website, database and images, and (if card
+      payments are added) process payments. They may only use it to provide their service to us.
+    </li>
+    <li>
+      <strong>Authorities</strong>, when Bangladeshi law requires it or to protect our customers and
+      artisans from fraud.
+    </li>
+  </ul>
+  <p>
+    Some of these providers store data on servers outside Bangladesh. We choose providers that
+    protect it with industry-standard security.
+  </p>
+
+  <h2 id="cookies">6. Cookies</h2>
+  <p>
+    We use only the cookies the shop needs to work. There are no advertising or analytics cookies.
+  </p>
+  <div class="legal__table-wrap">
+    <table class="legal__table">
+      <caption class="visually-hidden">
+        Cookies we use
+      </caption>
+      <thead>
+        <tr>
+          <th scope="col">Cookie</th>
+          <th scope="col">Why</th>
+          <th scope="col">Lasts</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><code>kinbo_refresh</code></td>
+          <td>Keeps you signed in. It can't be read by scripts on the page.</td>
+          <td>7 days, renewed as you use the site</td>
+        </tr>
+        <tr>
+          <td><code>kinbo_cart</code></td>
+          <td>Remembers your cart before you sign in.</td>
+          <td>30 days</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h2 id="retention">7. How long we keep it</h2>
+  <ul>
+    <li>Account details: until you delete your account.</li>
+    <li>
+      Orders: as long as Bangladeshi tax and accounting law requires, even after an account is
+      deleted, because they are business records.
+    </li>
+    <li>
+      Carts and holds: holds end after 15 minutes. The cookie that links a browser to its cart
+      before sign-in expires after 30 days.
+    </li>
+    <li>Server logs: kept only for a short period for security.</li>
+  </ul>
+
+  <h2 id="security">8. Security</h2>
+  <p>
+    The site uses HTTPS everywhere. Passwords and sign-in tokens are stored only as secure hashes,
+    and sign-in sessions expire. No system is perfectly secure, so please use a password you don't
+    use elsewhere.
+  </p>
+
+  <h2 id="rights">9. Your choices and rights</h2>
+  <p>
+    You can ask us to show you the personal information we hold about you, correct it, or delete
+    your account. Email <a [href]="'mailto:' + shop.contactEmail">{{ shop.contactEmail }}</a> from
+    the address on your account and we'll reply within 30 days. If you signed in with Google, you
+    can also remove our access from your Google account at any time.
+  </p>
+
+  <h2 id="children">10. Children</h2>
+  <p>
+    This shop is not meant for children under 13, and we don't knowingly collect their information.
+    If you believe a child has given us personal information, contact us and we'll delete it.
+  </p>
+
+  <h2 id="changes">11. Changes and contact</h2>
+  <p>
+    If we change this policy we'll update the date at the top of this page. Questions or requests:
+    <a [href]="'mailto:' + shop.contactEmail">{{ shop.contactEmail }}</a
+    >. See also our <a routerLink="/terms">terms and conditions</a>.
+  </p>
+</article>
